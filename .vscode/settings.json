@@ -6,9 +6,10 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit",
-    "source.sortMembers": "explicit"
+    "source.sortMembers": "explicit",
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.fontFamily": "Fira Code",
-  "editor.fontLigatures": true
+  "editor.fontLigatures": true,
+  // `prettier`를 기본 포맷터로 지정
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
 }
