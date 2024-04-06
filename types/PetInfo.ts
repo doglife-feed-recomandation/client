@@ -7,19 +7,18 @@ export enum Breed {
 }
 
 export enum AllergySource {
+  곡물 = '곡물',
   닭 = '닭',
   소 = '소',
   오리 = '오리',
   연어 = '연어',
-  소스5 = '소스5',
 }
 
 export enum ProteinSource {
-  소스1 = '소스1',
-  소스2 = '소스2',
-  소스3 = '소스3',
-  소스4 = '소스4',
-  소스5 = '소스5',
+  닭 = '닭',
+  소 = '소',
+  오리 = '오리',
+  연어 = '연어',
 }
 
 export enum Sex {
