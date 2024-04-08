@@ -108,7 +108,7 @@ export default function PetInfoForm({
             },
           ]}
         >
-          <InputNumber min={0} />
+          <InputNumber min={0} addonAfter="Kg" />
         </Form.Item>
 
         <Form.Item<PetInfo>
