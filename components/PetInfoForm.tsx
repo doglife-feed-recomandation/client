@@ -123,28 +123,19 @@ export default function PetInfoForm({
           name="sex"
           rules={[{ required: true, message: '성별을 선택해주세요' }]}
         >
-          {/* <Select
-          value={sex}
-          onChange={setSex}
-          placeholder="성별을 선택해주세요"
-          options={Object.entries(Sex).map(([label, value]) => ({
-            label,
-            value,
-          }))}
-        /> */}
           <Radio.Group
             buttonStyle="solid"
             onChange={(e: RadioChangeEvent) => {
               setSex(e.target.value as Sex);
             }}
           >
-            <Radio.Button value="neutered">중성화</Radio.Button>
-            <Radio.Button value="male">수컷</Radio.Button>
-            <Radio.Button value="female">암컷</Radio.Button>
+            {Object.entries(Sex).map(([key, value]) => (
+              <Radio.Button value={value}>{key}</Radio.Button>
+            ))}
           </Radio.Group>
         </Form.Item>
 
-        {sex === Sex.암 && (
+        {sex === Sex.암컷 && (
           <Form.Item<PetInfo>
             label="반려동물이 생리중인가요?"
             name="menstruation"
@@ -158,7 +149,7 @@ export default function PetInfoForm({
           </Form.Item>
         )}
 
-        {sex === Sex.암 && (
+        {sex === Sex.암컷 && (
           <Form.Item<PetInfo>
             label="반려동물이 임신중인가요?"
             name="pregnancy"
