@@ -11,6 +11,7 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import {
   Button,
   DatePicker,
+  Flex,
   Form,
   Input,
   InputNumber,
@@ -52,7 +53,7 @@ export default function PetInfoForm({
   }, [sex]);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <Flex justify="center" align="start">
       <Form
         name="basic"
         labelCol={{ span: 24 }}
@@ -201,6 +202,6 @@ export default function PetInfoForm({
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </Flex>
   );
 }
