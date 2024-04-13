@@ -1,3 +1,4 @@
+import { PetInfo } from "@/types/PetInfo";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 import * as csvParser from 'csv-parser';
@@ -18,7 +19,6 @@ const docClient = DynamoDBDocumentClient.from(
 
 function preprocessData(item: any): any {
   const processedItem: any = {};
-
   for (const key in item) {
     let value = item[key];
     // 괄호 안의 내용 무시
@@ -26,19 +26,20 @@ function preprocessData(item: any): any {
     // 숫자 변환
     if (!isNaN(value) && value !== '') {
       value = Number(value);
-    } else if (value.includes(',')) { // 쉼표로 구분된 문자열 처리, 배열로 변환
-      value = value.split(',').map((v: string) => v.trim());
+    } else if (value.includes('|')) { // '|'로 구분된 문자열 처리, 배열로 변환
+      value = value.split('|').map((v: string) => v.trim());
+    } else {
+      value = value.toString();
     }
     processedItem[key] = value;
   }
-  
   return processedItem;
 }
 
 function readCSVFile(filePath: string): Promise<any[]> {
   return new Promise((resolve, reject) => {
     const results: any[] = [];
-    fs.createReadStream(filePath)
+    fs.createReadStream(filePath, "utf-8")
       .pipe(csvParser.default())
       .on('data', (data) => results.push(data))
       .on('end', () => {
@@ -51,6 +52,7 @@ function readCSVFile(filePath: string): Promise<any[]> {
 }
 
 async function saveDataToDynamoDB(data: any[]) {
+  const results = [];
   for (const item of data) {
     const processedItem = preprocessData(item);
     
@@ -63,21 +65,26 @@ async function saveDataToDynamoDB(data: any[]) {
 
     try {
       const result = await docClient.send(command);
-      console.log("Item inserted:", result);
+      results.push(result);
     } catch (error) {
       console.error("Error inserting item:", error);
     }
   }
+  return results;
 }
 
 
-export async function createFeedInfo() {
+export async function createFeedInfo(pet:PetInfo) {
+  "use server"
+
   const filePath = './feed_data_csv.csv'; // CSV 파일 경로
   try {
     const data = await readCSVFile(filePath);
-    await saveDataToDynamoDB(data);
+    const response = await saveDataToDynamoDB(data);
+    return response;
   } catch (error) {
     console.error("An error occurred:", error);
   }
+  
 }
 
