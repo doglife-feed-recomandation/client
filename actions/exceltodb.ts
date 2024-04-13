@@ -2,7 +2,6 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
 import * as csvParser from 'csv-parser';
 import * as fs from 'fs';
-import { ulid } from 'ulid';
 
 
 // DynamoDB 클라이언트 초기화
@@ -58,7 +57,6 @@ async function saveDataToDynamoDB(data: any[]) {
     const command = new PutCommand({
       TableName: "FEED_INFO",
       Item: {
-        ID: ulid(),
         ...processedItem,
       },
     });
@@ -71,3 +69,15 @@ async function saveDataToDynamoDB(data: any[]) {
     }
   }
 }
+
+
+export async function createFeedInfo() {
+  const filePath = './feed_data_csv.csv'; // CSV 파일 경로
+  try {
+    const data = await readCSVFile(filePath);
+    await saveDataToDynamoDB(data);
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
+}
+
