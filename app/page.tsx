@@ -1,18 +1,10 @@
-import { createPetInfo } from '@/actions/form';
-import PetInfoForm from '@/components/PetInfoForm';
-import { PetInfo } from '@/types/PetInfo';
-import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 export default function Home() {
-  const onSubmit = async (pet: PetInfo) => {
-    'use server';
-    const id = await createPetInfo(pet);
-    redirect(`/result/${id}`);
-  };
-
   return (
     <main>
-      <PetInfoForm onSubmit={onSubmit} />
+      반려견 사료추천 서비스
+      <Link href="/form">사료 추천 받기</Link>
     </main>
   );
 }
