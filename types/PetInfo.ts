@@ -6,13 +6,39 @@ export enum Breed {
   포메라니안 = '포메라니안',
 }
 
-export enum AllergySource {
+export enum AllergySourceType {
+  육류 = '육류',
+  어패류 = '어패류',
+  갑각류 = '갑각류',
+  채소 = '채소',
+  콩 = '콩',
+  과일 = '과일',
+  효모 = '호모',
+  유제품 = '유제품',
   곡물 = '곡물',
-  닭 = '닭',
-  소 = '소',
-  오리 = '오리',
-  연어 = '연어',
 }
+
+export enum AllergySource {
+  닭,
+  오리,
+  칠면조,
+  소,
+  염소,
+  양,
+  돼지,
+  멧돼지,
+  토끼,
+  메추라기,
+  타조,
+  사슴,
+  식용곤충,
+}
+
+export const AllergySource: Record<AllergySourceType, MeatAllergySource[]> = {
+  [AllergySourceType.갑각류]: [],
+
+  [AllergySourceType.육류]: [MeatAllergySource.닭, MeatAllergySource.돼지],
+};
 
 export enum ProteinSource {
   닭 = '닭',
@@ -46,7 +72,7 @@ export interface PetInfo {
   pregnancy?: boolean;
   weight: number;
   allergy: boolean;
-  allergySource?: Array<AllergySource>; // 알러지 원인이 여러개일 수도
+  allergySource?: AllergySource; // 알러지 원인이 여러개일 수도
   protein: boolean;
   proteinSource?: Array<ProteinSource>;
   healthIssue?: Array<HealthIssue>;
