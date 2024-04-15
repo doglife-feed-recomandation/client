@@ -27,11 +27,11 @@ import { useState } from 'react';
 export default function PetInfoForm({
   onSubmit,
 }: {
-  onSubmit: (pet: PetInfo) => void;
+  onSubmit: (pet: PetInfo) => Promise<void>;
 }) {
   const [sex, setSex] = useState<Sex>();
 
-  const onFinish = (
+  const onFinish = async (
     pet: PetInfo & {
       birth: Dayjs;
     },
@@ -44,8 +44,7 @@ export default function PetInfoForm({
     };
 
     console.log(payload);
-
-    onSubmit(payload);
+    await onSubmit(payload);
   };
 
   return (
