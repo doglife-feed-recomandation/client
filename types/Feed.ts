@@ -1,4 +1,8 @@
 export interface Feed {
+  ID: number;
+  allergy: string[];
+  brand: string;
+  Calcium: number;
   Calorie: number;
   Chondroitin: number;
   Crude_Ash: number;
@@ -9,21 +13,18 @@ export interface Feed {
   Dog_age: string[];
   Dog_size: string[];
   EPA: number;
+  feature: string[];
   Glucosamine: number;
   Grain_size_1: number;
   Grain_size_2: number;
-  ID: number;
+  healthcare: string[];
+  name: string;
   Omega3: number;
   Omega6: number;
   Phosphorus: number;
   Price: number;
+  protein: string[];
+  type: string;
   VitaminE: number;
   Weight: number;
-  allergy: string[];
-  brand: string;
-  feature: string[];
-  healthcare: string[];
-  name: string;
-  protein: string;
-  type: string;
 }

@@ -1,3 +1,4 @@
+import { Feed } from '@/types/Feed';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 
@@ -13,6 +14,34 @@ const docClient = DynamoDBDocumentClient.from(
   }),
 );
 
+const parseFeed = (feed: any): Feed => {
+  return {
+    ...feed,
+    Calcium: feed.Calcium || 0,
+    Calorie: feed.Calorie || 0,
+    Chondroitin: feed.Chondroitin || 0,
+    Crude_Ash: feed.Crude_Ash || 0,
+    Crude_Fat: feed.Crude_Fat || 0,
+    Crude_Fiber: feed.Crude_Fiber || 0,
+    Crude_Protein: feed.Crude_Protein || 0,
+    DHA: feed.DHA || 0,
+    EPA: feed.EPA || 0,
+    Glucosamine: feed.Glucosamine || 0,
+    Grain_size_1: feed.Grain_size_1 || 0,
+    Grain_size_2: feed.Grain_size_2 || 0,
+    Omega3: feed.Omega3 || 0,
+    Omega6: feed.Omega6 || 0,
+    Phosphorus: feed.Phosphorus || 0,
+    protein: Array.isArray(feed.protein)
+      ? feed.protein
+      : feed.protein
+        ? [feed.protein]
+        : [],
+    VitaminE: feed.VitaminE || 0,
+    Weight: feed.Weight || 0,
+  };
+};
+
 export async function getAllFeeds() {
   'use server';
   const command = new ScanCommand({
@@ -21,7 +50,7 @@ export async function getAllFeeds() {
 
   try {
     const result = await docClient.send(command);
-    return result;
+    return result.Items?.map(parseFeed) || [];
   } catch (error) {
     console.error('Error inserting item:', error);
   }
