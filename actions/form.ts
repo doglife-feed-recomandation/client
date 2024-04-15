@@ -19,10 +19,13 @@ export async function createPetInfo(pet: PetInfo) {
   
   try {
     const uniqueId = ulid(); // ULID 생성
+    const currentTimeStamp = Date.now();
+
     const command = new PutCommand({
       TableName: "DOG_INFO",
       Item: {
         ID: uniqueId, // ID에 생성한 ULID 저장
+        createdAt: currentTimeStamp, // 현재 시간 타임스탬프로 저장
         ...pet,
       },
     });

@@ -22,8 +22,8 @@ export enum ProteinSource {
 }
 
 export enum Sex {
-  수 = 'male',
-  암 = 'female',
+  수컷 = 'male',
+  암컷 = 'female',
   중성화 = 'neutered',
 }
 
@@ -41,7 +41,7 @@ export interface PetInfo {
   name: string;
   breed: Breed | string;
   birth: string; // YYYY-MM
-  sex: 'male' | 'female' | 'neutered';
+  sex: Sex;
   menstruation?: boolean;
   pregnancy?: boolean;
   weight: number;

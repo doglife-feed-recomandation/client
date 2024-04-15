@@ -53,7 +53,7 @@ export default function PetInfoForm({
   }, [sex]);
 
   return (
-    <Flex justify="center">
+    <Flex justify="center" align="start">
       <Form
         name="basic"
         labelCol={{ span: 24 }}
@@ -108,7 +108,7 @@ export default function PetInfoForm({
             },
           ]}
         >
-          <InputNumber min={0} />
+          <InputNumber min={0} addonAfter="Kg" />
         </Form.Item>
 
         <Form.Item<PetInfo>
@@ -130,13 +130,13 @@ export default function PetInfoForm({
               setSex(e.target.value as Sex);
             }}
           >
-            <Radio.Button value="neutered">중성화</Radio.Button>
-            <Radio.Button value="male">수컷</Radio.Button>
-            <Radio.Button value="female">암컷</Radio.Button>
+            {Object.entries(Sex).map(([key, value]) => (
+              <Radio.Button value={value}>{key}</Radio.Button>
+            ))}
           </Radio.Group>
         </Form.Item>
 
-        {sex === Sex.암 && (
+        {sex === Sex.암컷 && (
           <Form.Item<PetInfo>
             label="반려견이 생리중인가요?"
             name="menstruation"
@@ -150,7 +150,7 @@ export default function PetInfoForm({
           </Form.Item>
         )}
 
-        {sex === Sex.암 && (
+        {sex === Sex.암컷 && (
           <Form.Item<PetInfo>
             label="반려견이 임신중인가요?"
             name="pregnancy"
