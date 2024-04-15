@@ -3,8 +3,8 @@
 import {
   AllergySource,
   Breed,
+  HealthIssue,
   PetInfo,
-  ProteinSource,
   Sex,
 } from '@/types/PetInfo';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
@@ -90,7 +90,7 @@ export default function PetInfoForm({
         </Form.Item>
 
         <Form.Item<PetInfo>
-          label="몸무게"
+          label="몸무게 (kg)"
           name="weight"
           rules={[
             {
@@ -136,7 +136,7 @@ export default function PetInfoForm({
 
         {sex === Sex.암컷 && (
           <Form.Item<PetInfo>
-            label="반려동물이 생리중인가요?"
+            label="반려견이 생리중인가요?"
             name="menstruation"
             valuePropName="checked"
           >
@@ -150,7 +150,7 @@ export default function PetInfoForm({
 
         {sex === Sex.암컷 && (
           <Form.Item<PetInfo>
-            label="반려동물이 임신중인가요?"
+            label="반려견이 임신중인가요?"
             name="pregnancy"
             valuePropName="checked"
           >
@@ -163,7 +163,7 @@ export default function PetInfoForm({
         )}
 
         <Form.Item<PetInfo>
-          label="알러지가 있다면 알러지 원인을 선택해주세요"
+          label="반려견이 알러지가 있다면 알러지 원인을 선택해주세요"
           name="allergySource"
         >
           <Select
@@ -179,15 +179,15 @@ export default function PetInfoForm({
         </Form.Item>
 
         <Form.Item<PetInfo>
-          label="선호하시는 단백질 종류가 있다면 선택해주세요"
-          name="proteinSource"
+          label="반려견이 건강 문제가 있다면 선택해주세요"
+          name="healthIssue"
         >
           <Select
             mode="multiple"
             allowClear
             style={{ width: '100%' }}
             placeholder="없음"
-            options={Object.entries(ProteinSource).map(([label, value]) => ({
+            options={Object.entries(HealthIssue).map(([label, value]) => ({
               label,
               value,
             }))}

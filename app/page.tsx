@@ -1,10 +1,3 @@
-import { createPetInfo } from '@/actions/form';
-import PetInfoForm from '@/components/PetInfoForm';
-
 export default function Home() {
-  return (
-    <main>
-      <PetInfoForm onSubmit={createPetInfo} />
-    </main>
-  );
+  return <main>반려견 사료추천 서비스</main>;
 }
