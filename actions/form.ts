@@ -1,6 +1,6 @@
-import { PetInfo } from "@/types/PetInfo";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { PetInfo } from '@/types/PetInfo';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { ulid } from 'ulid';
 
 // DynamoDB 클라이언트 초기화

@@ -20,8 +20,11 @@ export async function getAllFeeds() {
   });
 
   try {
-    const result = await docClient.send(command);
-    return result;
+    const response = await docClient.send(command);
+    const sortedItems = response.Items?.sort((a, b) => {
+      return a.ID - b.ID;
+    });
+    return sortedItems;
   } catch (error) {
     console.error('Error inserting item:', error);
   }
