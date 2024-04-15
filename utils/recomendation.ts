@@ -4,6 +4,7 @@ import { PetInfo, Sex } from '@/types/PetInfo';
 
 export const recomendHeuristically = async (
   pet: PetInfo,
+  num_recomed = 10,
 ): Promise<FeedRecommendation[]> => {
   'use server';
   let recomendations: FeedRecommendation[] = (await getAllFeeds()).map(
@@ -21,8 +22,8 @@ export const recomendHeuristically = async (
     recomendations = recomendations
       .filter(
         ({ feed }) =>
-          feed.allergies === undefined ||
-          feed.allergies.every(
+          feed.allergy === undefined ||
+          feed.allergy.every(
             (feedAllergy) =>
               !(pet.allergySource as string[]).includes(feedAllergy),
           ),
@@ -35,7 +36,12 @@ export const recomendHeuristically = async (
 
   // Step 3: 임신 중인 강아지
   if (pet.sex === Sex.암컷 && pet.pregnancy) {
-    recomendations = recomendations.filter(({ feed }) => feed.Calorie >= 400);
+    recomendations = recomendations
+      .filter(({ feed }) => feed.calorie >= 400)
+      .map((recomand) => ({
+        ...recomand,
+        reasons: [...recomand.reasons, '임신중인 강아지를 위해서 고열량이에용'],
+      }));
   }
 
   // Step 4: 시니어 or 퍼피 사료
@@ -43,14 +49,14 @@ export const recomendHeuristically = async (
     const ageInMonths = calculateAgeInMonths(pet.birth);
     if (ageInMonths > 9) {
       recomendations = recomendations
-        .filter(({ feed }) => feed.Dog_age.includes('시니어'))
+        .filter(({ feed }) => feed.dogAge.includes('시니어'))
         .map((recomned) => ({
           ...recomned,
           reasons: [...recomned.reasons, '시니어 사료'],
         }));
     } else if (ageInMonths < 1) {
       recomendations = recomendations
-        .filter(({ feed }) => feed.Dog_age.includes('퍼피'))
+        .filter(({ feed }) => feed.dogAge.includes('퍼피'))
         .map((recomned) => ({
           ...recomned,
           reasons: [...recomned.reasons, '퍼피 사료'],
@@ -65,10 +71,10 @@ export const recomendHeuristically = async (
   if (pet.healthProblems && pet.healthProblems.length > 0) {
     recomendations = recomendations
       .filter(({ feed }) =>
-        feed.healthcares.some((care) => pet.healthProblems!.includes(care)),
+        feed.healthcare.some((care) => pet.healthProblems!.includes(care)),
       )
       .map((recomned) => {
-        const possibleCares = recomned.feed.healthcares.filter((care) =>
+        const possibleCares = recomned.feed.healthcare.filter((care) =>
           pet.healthProblems!.includes(care),
         );
         const additionalReasons = possibleCares.map(
@@ -84,7 +90,7 @@ export const recomendHeuristically = async (
       .sort((a, b) => b.score - a.score);
   }
 
-  return recomendations;
+  return recomendations.slice(0, num_recomed);
 };
 
 // 보조 함수: 생일을 받아서 현재 나이를 월 단위로 계산

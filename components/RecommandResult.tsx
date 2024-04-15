@@ -3,7 +3,6 @@ import { FeedRecommendation } from '@/types/Feed';
 import { PetInfo } from '@/types/PetInfo';
 
 import { Card, List } from 'antd';
-import Link from 'next/link';
 
 const SAMPLE_IMAGE =
   'https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/R0H/image/FI6hVXVorpvSLMYWc6U6iBa1Z2Q';
@@ -34,7 +33,6 @@ export default function RecomendResult({
                     loading="lazy"
                   />
                 }
-                extra={<Link href="#">추천 이유</Link>}
               >
                 <Card.Meta title={item.feed.name} description={item.reasons} />
               </Card>
