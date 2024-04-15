@@ -53,14 +53,13 @@ export enum Sex {
   중성화 = 'neutered',
 }
 
-export enum HealthIssue {
-  눈 = '눈/눈물',
-  다이어트 = '다이어트',
-  관절 = '뼈/관절',
-  소화기 = '소화기',
+export enum HealthProblem {
+  '피부/피모' = '피부/피모',
   저알러지 = '저알러지',
-  피부 = '피부/피모',
   항산화 = '항산화',
+  다어이트 = '다이어트',
+  소화기 = '소화기',
+  '뼈/관절' = '뼈/관절',
 }
 
 export interface PetInfo {
@@ -75,6 +74,5 @@ export interface PetInfo {
   allergySource?: AllergySource; // 알러지 원인이 여러개일 수도
   protein: boolean;
   proteinSource?: Array<ProteinSource>;
-  healthIssue?: Array<HealthIssue>;
-  // TODO: add health problems
+  healthProblems?: HealthProblem[]; // 건강 문제
 }

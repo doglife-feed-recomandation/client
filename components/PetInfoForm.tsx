@@ -3,7 +3,7 @@
 import {
   AllergySource,
   Breed,
-  HealthIssue,
+  HealthProblem,
   PetInfo,
   Sex,
 } from '@/types/PetInfo';
@@ -27,11 +27,11 @@ import { useState } from 'react';
 export default function PetInfoForm({
   onSubmit,
 }: {
-  onSubmit: (pet: PetInfo) => void;
+  onSubmit: (pet: PetInfo) => Promise<void>;
 }) {
   const [sex, setSex] = useState<Sex>();
 
-  const onFinish = (
+  const onFinish = async (
     pet: PetInfo & {
       birth: Dayjs;
     },
@@ -44,8 +44,7 @@ export default function PetInfoForm({
     };
 
     console.log(payload);
-
-    onSubmit(payload);
+    await onSubmit(payload);
   };
 
   return (
@@ -180,14 +179,14 @@ export default function PetInfoForm({
 
         <Form.Item<PetInfo>
           label="반려견이 건강 문제가 있다면 선택해주세요"
-          name="healthIssue"
+          name="healthProblems"
         >
           <Select
             mode="multiple"
             allowClear
             style={{ width: '100%' }}
             placeholder="없음"
-            options={Object.entries(HealthIssue).map(([label, value]) => ({
+            options={Object.entries(HealthProblem).map(([label, value]) => ({
               label,
               value,
             }))}
