@@ -1,0 +1,29 @@
+export interface Feed {
+  Calorie: number;
+  Chondroitin: number;
+  Crude_Ash: number;
+  Crude_Fat: number;
+  Crude_Fiber: number;
+  Crude_Protein: number;
+  DHA: number;
+  Dog_age: string[];
+  Dog_size: string[];
+  EPA: number;
+  Glucosamine: number;
+  Grain_size_1: number;
+  Grain_size_2: number;
+  ID: number;
+  Omega3: number;
+  Omega6: number;
+  Phosphorus: number;
+  Price: number;
+  VitaminE: number;
+  Weight: number;
+  allergy: string[];
+  brand: string;
+  feature: string[];
+  healthcare: string[];
+  name: string;
+  protein: string;
+  type: string;
+}

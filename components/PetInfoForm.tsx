@@ -22,7 +22,7 @@ import {
 } from 'antd';
 
 import { Dayjs } from 'dayjs';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function PetInfoForm({
   onSubmit,
@@ -47,10 +47,6 @@ export default function PetInfoForm({
 
     onSubmit(payload);
   };
-
-  useEffect(() => {
-    console.log(sex);
-  }, [sex]);
 
   return (
     <Flex justify="center" align="start">
@@ -131,7 +127,9 @@ export default function PetInfoForm({
             }}
           >
             {Object.entries(Sex).map(([key, value]) => (
-              <Radio.Button value={value}>{key}</Radio.Button>
+              <Radio.Button value={value} key={key}>
+                {key}
+              </Radio.Button>
             ))}
           </Radio.Group>
         </Form.Item>
