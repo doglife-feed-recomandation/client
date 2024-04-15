@@ -34,7 +34,16 @@ export default function RecomendResult({
                   />
                 }
               >
-                <Card.Meta title={item.feed.name} description={item.reasons} />
+                <Card.Meta
+                  title={item.feed.name}
+                  description={
+                    <>
+                      {item.reasons.map((reason, i) => (
+                        <div key={i}>{reason}</div>
+                      ))}
+                    </>
+                  }
+                />
               </Card>
             </List.Item>
           )}
