@@ -1,34 +1,35 @@
 import { HealthProblem } from './PetInfo';
 
 export interface Feed {
-  ID: number;
-  allergies: string[]; // TODO: use enum
+  id: number;
+  allergy: string[]; // TODO: use enum
   brand: string;
-  Calcium: number;
-  Calorie: number;
-  Chondroitin: number;
-  Crude_Ash: number;
-  Crude_Fat: number;
-  Crude_Fiber: number;
-  Crude_Protein: number;
+  calcium: number;
+  calorie: number;
+  chondroitin: number;
+  crudeAsh: number;
+  crudeFat: number;
+  crudeFiber: number;
+  crudeProtein: number;
   DHA: number;
-  Dog_age: string[]; // TODO: use enum
-  Dog_size: string[]; // TODO: use enum
+  dogAge: string[]; // TODO: use enum
+  dogSize: string[]; // TODO: use enum
   EPA: number;
   feature: string[];
-  Glucosamine: number;
-  Grain_size_1: number;
-  Grain_size_2: number;
-  healthcares: HealthProblem[]; // TODO: use enum
+  glucosamine: number;
+  grainSize1: number;
+  grainSize2: number;
+  healthcare: HealthProblem[]; // TODO: use enum
   name: string;
-  Omega3: number;
-  Omega6: number;
-  Phosphorus: number;
-  Price: number;
+  omega3: number;
+  omega6: number;
+  phosphorus: number;
+  price: number;
+  productCode: number;
   protein: string[]; // TODO: use enum
   type: string;
-  VitaminE: number;
-  Weight: number;
+  vitaminE: number;
+  weight: number;
 }
 
 export interface FeedRecommendation {
