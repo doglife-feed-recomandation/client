@@ -52,6 +52,6 @@ export async function getAllFeeds() {
     const result = await docClient.send(command);
     return result.Items?.map(parseFeed) || [];
   } catch (error) {
-    console.error('Error inserting item:', error);
+    throw new Error(`Failed to fetch feeds: ${error}`);
   }
 }
