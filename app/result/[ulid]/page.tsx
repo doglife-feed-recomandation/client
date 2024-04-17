@@ -1,12 +1,12 @@
 import { getPetInfo } from '@/actions/form';
-import RecomendResult from '@/components/RecommandResult';
-import { recomendHeuristically } from '@/utils/recomendation';
-export default async function RecomendationPage({
+import RecommendResult from '@/components/RecommendResult';
+import { recommendHeuristically } from '@/utils/recommendation';
+export default async function RecommendationPage({
   params: { ulid },
 }: {
   params: { ulid: string };
 }) {
   const pet = await getPetInfo(ulid);
-  const recomendations = await recomendHeuristically(pet);
-  return <RecomendResult pet={pet} recomendations={recomendations} />;
+  const recommendations = await recommendHeuristically(pet);
+  return <RecommendResult pet={pet} recommendations={recommendations} />;
 }

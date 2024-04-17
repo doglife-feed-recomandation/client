@@ -7,12 +7,12 @@ import { Card, List } from 'antd';
 const SAMPLE_IMAGE =
   'https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/R0H/image/FI6hVXVorpvSLMYWc6U6iBa1Z2Q';
 
-export default function RecomendResult({
+export default function RecommendResult({
   pet,
-  recomendations,
+  recommendations,
 }: {
   pet: PetInfo;
-  recomendations: FeedRecommendation[];
+  recommendations: FeedRecommendation[];
 }) {
   return (
     <>
@@ -20,7 +20,7 @@ export default function RecomendResult({
       <div>
         <List
           grid={{ gutter: 16, column: 4 }}
-          dataSource={recomendations}
+          dataSource={recommendations}
           renderItem={(item) => (
             <List.Item>
               <Card

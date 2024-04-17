@@ -19,6 +19,7 @@ import {
   RadioChangeEvent,
   Select,
   Switch,
+  TreeSelect,
 } from 'antd';
 
 import { Dayjs } from 'dayjs';
@@ -37,7 +38,7 @@ export default function PetInfoForm({
     },
   ) => {
     pet.allergy = pet.allergySource?.length !== 0 || false;
-    pet.protein = pet.proteinSource?.length !== 0 || false;
+    pet.healthProblem = pet.healthProblemSource?.length !== 0 || false;
     const payload: PetInfo = {
       ...pet,
       birth: pet.birth.format('YYYY-MM'),
@@ -89,7 +90,7 @@ export default function PetInfoForm({
         </Form.Item>
 
         <Form.Item<PetInfo>
-          label="몸무게 (kg)"
+          label="몸무게"
           name="weight"
           rules={[
             {
@@ -165,21 +166,23 @@ export default function PetInfoForm({
           label="반려견이 알러지가 있다면 알러지 원인을 선택해주세요"
           name="allergySource"
         >
-          <Select
-            mode="multiple"
-            allowClear
-            style={{ width: '100%' }}
+          <TreeSelect
+            showSearch
             placeholder="없음"
-            options={Object.entries(AllergySource).map(([label, value]) => ({
-              label,
-              value,
+            treeCheckable={true}
+            allowClear
+            treeData={Object.entries(AllergySource).map(([key, value]) => ({
+              value: key,
+              title: key,
+              children: value.map((v) => ({ value: v, title: v })),
             }))}
-          ></Select>
+            treeLine={true}
+          />
         </Form.Item>
 
         <Form.Item<PetInfo>
           label="반려견이 건강 문제가 있다면 선택해주세요"
-          name="healthProblems"
+          name="healthProblemSource"
         >
           <Select
             mode="multiple"
