@@ -35,7 +35,7 @@ export default function AIChatBox({ initialMessages }: AiChatBoxProps) {
             <ChatMessage
               message={{
                 role: 'assistant',
-                content: 'Thinking...',
+                content: '생각중...',
               }}
             />
           )}
@@ -43,7 +43,7 @@ export default function AIChatBox({ initialMessages }: AiChatBoxProps) {
             <ChatMessage
               message={{
                 role: 'assistant',
-                content: 'Something went wrong. Please try again.',
+                content: '에러가 발생했습니다. 다시 시도해주세요.',
               }}
             />
           )}
@@ -52,7 +52,7 @@ export default function AIChatBox({ initialMessages }: AiChatBoxProps) {
           <Input
             value={input}
             onChange={handleInputChange}
-            placeholder="Say something..."
+            placeholder="메시지를 입력해주세요."
             ref={inputRef}
           />
           <Button type="submit">Send</Button>
