@@ -1,6 +1,7 @@
 'use client';
 
-import { Message, useChat } from 'ai/react';
+import AIChatBox from '@/components/AIChatBox';
+import { Message } from 'ai/react';
 
 const prompt: Message[] = [
   {
@@ -24,30 +25,5 @@ const prompt: Message[] = [
 ];
 
 export default function ChatPage() {
-  const { messages, error, input, handleInputChange, handleSubmit } = useChat({
-    initialMessages: prompt,
-  });
-
-  if (error) {
-    console.error(error);
-  }
-  return (
-    <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
-      {messages.slice(1).map((m) => (
-        <div key={m.id} className="whitespace-pre-wrap">
-          {m.role === 'user' ? 'User: ' : 'AI: '}
-          {m.content}
-        </div>
-      ))}
-
-      <form onSubmit={handleSubmit}>
-        <input
-          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
-          value={input}
-          placeholder="Say something..."
-          onChange={handleInputChange}
-        />
-      </form>
-    </div>
-  );
+  return <AIChatBox initialMessages={prompt} />;
 }

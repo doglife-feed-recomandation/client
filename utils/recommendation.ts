@@ -24,8 +24,8 @@ export const recommendHeuristically = async (
         ({ feed }) =>
           feed.allergy === undefined ||
           feed.allergy.every((feedAllergy) =>
-            pet.allergySource!.map(
-              (record) => Object.values(record).flat().includes(feedAllergy), // 이거 맞나요..?
+            pet.allergySource!.map((record) =>
+              Object.values(record).flat().includes(feedAllergy),
             ),
           ),
       )
