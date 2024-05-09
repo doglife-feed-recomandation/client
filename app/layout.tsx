@@ -10,6 +10,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AntdRegistry>
+          <img className="max-h-12" src="/louishome_logo.jpeg" alt="logo" />
           <div
             style={{
               maxWidth: '100vw',
