@@ -25,5 +25,9 @@ const prompt: Message[] = [
 ];
 
 export default function ChatPage() {
-  return <AIChatBox initialMessages={prompt} />;
+  return (
+    <>
+      <AIChatBox initialMessages={prompt} />
+    </>
+  );
 }

@@ -25,8 +25,8 @@ export default function AIChatBox({ initialMessages }: AiChatBoxProps) {
   const lastMessageIsUser = messages[messages.length - 1]?.role === 'user';
 
   return (
-    <div className="bottom-0 justify-center z-10 w-full max-w-[500px] p-1 xl:right-36">
-      <div className="flex h-[600px] flex-col rounded border bg-background shadow-xl">
+    <div className="flex content-end justify-center z-10 w-full p-1 xl:right-36">
+      <div className="flex w-[500px] h-[600px] flex-col rounded border bg-background shadow-xl">
         <div className="mt-3 h-full overflow-y-auto px-3" ref={scrollRef}>
           {messages.slice(1).map((message) => (
             <ChatMessage message={message} key={message.id} />
