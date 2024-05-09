@@ -10,7 +10,7 @@ export default function RecommendationCard({
 }) {
   return (
     <div
-      className="p-4"
+      className="p-4 hover:scale-110"
       style={{
         cursor: 'pointer',
         border: '1px solid #e2e8f0',
@@ -39,7 +39,7 @@ export default function RecommendationCard({
         <div className="text-sm">{recommendation.feed.name}</div>
         <div className="text-xs">
           {recommendation.reasons.map((reason, i) => (
-            <div key={i}>{reason}</div>
+            <div key={i}>- {reason}</div>
           ))}
         </div>
       </div>

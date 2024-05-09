@@ -11,7 +11,7 @@ interface AiChatBoxProps {
 
 export default function AIChatBox({ initialMessages }: AiChatBoxProps) {
   const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
-    useChat({ initialMessages });
+    useChat({ initialMessages, initialInput: '어떤 사료가 좋을까요?' });
 
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
