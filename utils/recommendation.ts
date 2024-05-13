@@ -25,8 +25,9 @@ export const recommendHeuristically = async (
         ({ feed }) =>
           feed.allergy === undefined ||
           feed.allergy.every((feedAllergy) =>
-            pet.allergySource!.map((record) =>
-              Object.values(record).flat().includes(feedAllergy),
+            // feedAllergy: 사료의 알러지 성분, record: 반려견 알러지 성분
+            pet.allergySource!.map(
+              (record) => !Object.values(record).flat().includes(feedAllergy),
             ),
           ),
       )
@@ -76,7 +77,11 @@ export const recommendHeuristically = async (
   // PetInfo에 Dog_size가 없음
 
   // Step 6: 건강 문제 해결
-  if (pet.healthProblem && pet.healthProblemSource!.length > 0) {
+  if (
+    pet.healthProblem &&
+    pet.healthProblemSource &&
+    pet.healthProblemSource!.length > 0
+  ) {
     recommendations = recommendations
       .filter(({ feed }) =>
         feed.healthcare.some((care) => pet.healthProblemSource!.includes(care)),

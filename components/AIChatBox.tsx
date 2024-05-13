@@ -1,5 +1,5 @@
 import { Input } from '@/components/Input';
-import { Button } from '@/components/ui/buttons';
+import { Button } from '@/components/ui/button';
 import { IconOpenAI, IconUser } from '@/components/ui/icons';
 import { cn } from '@/lib/utils';
 import { Message, useChat } from 'ai/react';

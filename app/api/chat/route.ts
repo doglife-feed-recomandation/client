@@ -22,4 +22,6 @@ export async function POST(req: Request) {
   const stream = OpenAIStream(response);
   // Respond with the stream
   return new StreamingTextResponse(stream);
+
+  // TODO : dynamoDB에 대화 저장
 }
