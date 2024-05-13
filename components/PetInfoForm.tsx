@@ -49,7 +49,7 @@ export default function PetInfoForm({
   };
 
   return (
-    <Flex justify="center" align="start">
+    <Flex justify="center" align="start" className="w-full">
       <Form
         name="basic"
         labelCol={{ span: 24 }}
@@ -66,12 +66,9 @@ export default function PetInfoForm({
         onFinish={onFinish}
         autoComplete="off"
         layout="vertical"
+        className="w-full"
       >
-        <img
-          className="max-w-[600px] max-w-[100%]"
-          src="/banner.png"
-          alt="logo"
-        />
+        <img className="w-full" src="/banner.png" alt="logo" />
         <Form.Item<PetInfo>
           label="강아지 이름"
           name="name"
@@ -182,6 +179,7 @@ export default function PetInfoForm({
               children: value.map((v) => ({ value: v, title: v })),
             }))}
             treeLine={true}
+            className="w-full"
           />
         </Form.Item>
 

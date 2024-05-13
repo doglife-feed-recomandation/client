@@ -25,7 +25,6 @@ export const recommendHeuristically = async (
         ({ feed }) =>
           feed.allergy === undefined ||
           feed.allergy.every((feedAllergy) =>
-            // feedAllergy: 사료의 알러지 성분, record: 반려견 알러지 성분
             pet.allergySource!.map(
               (record) => !Object.values(record).flat().includes(feedAllergy),
             ),
@@ -80,7 +79,7 @@ export const recommendHeuristically = async (
   if (
     pet.healthProblem &&
     pet.healthProblemSource &&
-    pet.healthProblemSource!.length > 0
+    pet.healthProblemSource.length > 0
   ) {
     recommendations = recommendations
       .filter(({ feed }) =>

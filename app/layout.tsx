@@ -18,14 +18,22 @@ export default function RootLayout({
     <html lang="kr" className={`${pretendard.variable}`}>
       <body className={pretendard.className}>
         <AntdRegistry>
-          <img className="max-h-12" src="/louishome_logo.jpeg" alt="logo" />
           <div
-            style={{
-              maxWidth: '100vw',
-              maxHeight: '100vh',
-            }}
+            role="outer-padding"
+            className="p-3 sm:p-3 md:p-12  flex flex-row w-screen h-screen overflow-auto"
           >
-            {children}
+            <div role="left-padding" className="flex-[1_1_0%]"></div>
+
+            <div className="flex-[2_1_800px] min-w-0">
+              <img
+                className="max-w-full max-h-12"
+                src="/louishome_logo.jpeg"
+                alt="logo"
+              />
+              <div className="w-full h-full">{children}</div>
+            </div>
+
+            <div role="right-padding" className="flex-[1_1_0%]"></div>
           </div>
         </AntdRegistry>
       </body>

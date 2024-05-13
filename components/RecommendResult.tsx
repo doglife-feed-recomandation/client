@@ -4,7 +4,7 @@ import { PetInfo } from '@/types/PetInfo';
 
 import { getInitialMessages } from '@/utils/prompt';
 import AIChatBox from './AIChatBox';
-import RecommendationCard2 from './RecommendationCard2';
+import RecommendationCard from './RecommendationCard';
 
 import {
   Carousel,
@@ -31,30 +31,12 @@ export default function RecommendResult({
   recommendations: FeedRecommendation[];
 }) {
   return (
-    <div
-      className="flex flex-col rounded border bg-background shadow-xl"
-      style={{
-        maxWidth: '80%',
-        height: 'calc(100% - 2rem)',
-        margin: '1rem auto',
-      }}
-    >
-      <div>
-        <h1 className="font-pretendard font-bold p-4 text-xl">
+    <div className="w-full flex flex-col rounded border bg-background shadow-xl">
+      <div className="w-full">
+        <h1 className="text-2xl p-4 font-semibold">
           {pet.name}에게 추천하는 사료는?
         </h1>
       </div>
-
-      {/*
-      <div className="flex-auto flex flex-row overflow-x-auto min-h-0 max-h-[25%] px-5 py-10 gap-1">
-        {recommendations.map((recommendation) => (
-          <RecommendationCard2
-            recommendation={recommendation}
-            key={recommendation.feed.id}
-          />
-        ))}
-      </div>
-      */}
 
       <Carousel
         opts={{
@@ -65,7 +47,7 @@ export default function RecommendResult({
         <CarouselContent>
           {recommendations.map((recommendation, index) => (
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-3/12">
-              <RecommendationCard2
+              <RecommendationCard
                 imgSrc={SAMPLE_IMAGE[index % SAMPLE_IMAGE.length]}
                 recommendation={recommendation}
                 key={recommendation.feed.id}
@@ -76,7 +58,7 @@ export default function RecommendResult({
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
-      <div>
+      <div className="w-full">
         <AIChatBox initialMessages={getInitialMessages(pet, recommendations)} />
       </div>
     </div>
