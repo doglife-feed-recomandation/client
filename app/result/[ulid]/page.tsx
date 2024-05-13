@@ -1,6 +1,7 @@
 import { getPetInfo } from '@/actions/form';
 import RecommendResult from '@/components/RecommendResult';
 import { recommendHeuristically } from '@/utils/recommendation';
+
 export default async function RecommendationPage({
   params: { ulid },
 }: {

@@ -67,6 +67,11 @@ export default function PetInfoForm({
         autoComplete="off"
         layout="vertical"
       >
+        <img
+          className="max-w-[600px] max-w-[100%]"
+          src="/banner.png"
+          alt="logo"
+        />
         <Form.Item<PetInfo>
           label="강아지 이름"
           name="name"
