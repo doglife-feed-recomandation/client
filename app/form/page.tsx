@@ -10,9 +10,5 @@ export default function Form() {
     redirect(`/result/${id}`);
   };
 
-  return (
-    <main>
-      <PetInfoForm onSubmit={onSubmit} />
-    </main>
-  );
+  return <PetInfoForm onSubmit={onSubmit} />;
 }
