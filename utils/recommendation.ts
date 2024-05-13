@@ -76,7 +76,11 @@ export const recommendHeuristically = async (
   // PetInfo에 Dog_size가 없음
 
   // Step 6: 건강 문제 해결
-  if (pet.healthProblem && pet.healthProblemSource!.length > 0) {
+  if (
+    pet.healthProblem &&
+    pet.healthProblemSource &&
+    pet.healthProblemSource.length > 0
+  ) {
     recommendations = recommendations
       .filter(({ feed }) =>
         feed.healthcare.some((care) => pet.healthProblemSource!.includes(care)),
