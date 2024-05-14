@@ -1,3 +1,4 @@
+import { Chat } from '@/types/Chat';
 import { PetInfo } from '@/types/PetInfo';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
@@ -5,7 +6,6 @@ import {
   GetCommand,
   PutCommand,
 } from '@aws-sdk/lib-dynamodb';
-import { Chat } from 'openai/resources/index.mjs';
 import { ulid } from 'ulid';
 
 // DynamoDB 클라이언트 초기화
