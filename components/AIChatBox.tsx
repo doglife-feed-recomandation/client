@@ -1,6 +1,8 @@
+'use client';
+
 import { Input } from '@/components/Input';
 import { Button } from '@/components/ui/button';
-import { IconOpenAI, IconUser } from '@/components/ui/icons';
+import { IconUser } from '@/components/ui/icons';
 import { cn } from '@/lib/utils';
 import { Message, useChat } from 'ai/react';
 import { useEffect, useRef } from 'react';
@@ -73,7 +75,13 @@ function ChatMessage({
         isAiMessage ? 'me-5 justify-start' : 'ms-5 justify-end',
       )}
     >
-      {isAiMessage && <IconOpenAI className="mr-2 shrink-0" />}
+      {isAiMessage && (
+        <img
+          src="../chatbot_assistant.png"
+          alt="chatbot assistant"
+          className="mr-2 size-8 rounded-full object-cover"
+        />
+      )}
       <p
         className={cn(
           'whitespace-pre-line rounded-md border px-3 py-2',
@@ -82,13 +90,7 @@ function ChatMessage({
       >
         {content}
       </p>
-      {!isAiMessage && (
-        <IconUser
-          width={100}
-          height={100}
-          className="ml-2 h-10 w-10 rounded-full object-cover"
-        />
-      )}
+      {!isAiMessage && <IconUser />}
     </div>
   );
 }

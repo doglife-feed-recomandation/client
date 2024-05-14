@@ -10,7 +10,7 @@ export default function RecommendationCard({
   recommendation: FeedRecommendation; // feed, reasons, score
 }) {
   return (
-    <Card className="p-4 hover:scale-110 h-[95%]">
+    <Card className="p-4 hover:bg-gray-200 h-[95%]">
       <CardContent>
         <div className="space-y-6">
           <div className="mx-auto">
