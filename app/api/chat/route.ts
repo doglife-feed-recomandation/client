@@ -17,12 +17,20 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
+  console.log(messages);
 
   // chat log start
   const messageLog: Message[] = messages;
   let lastUserMessageContent: string | undefined = undefined;
+  let lastAssistantMessageContent: string | undefined = undefined;
   const currentTimeStamp = Date.now();
   const chatLog: Chat = {
+    pk: "",
+    sk: 0,
+    content: "",
+    sender: "",
+  };
+  const chatLogA: Chat = {
     pk: "",
     sk: 0,
     content: "",
@@ -31,17 +39,27 @@ export async function POST(req: Request) {
 
   messageLog.forEach((m) => {
     if (m.role === 'user') {
-        lastUserMessageContent = m.content;
+      lastUserMessageContent = m.content;
+    }
+    if (m.role === 'assistant') {
+      lastAssistantMessageContent = m.content;
     }
   });
 
   if (lastUserMessageContent !== undefined) {
-      chatLog['pk'] = 'pkpkpk';
-      chatLog['sk'] = currentTimeStamp;
-      chatLog['content'] = lastUserMessageContent;
-      chatLog['sender'] = 'user'; 
-      createChatLog(chatLog);
+    chatLog['pk'] = 'pkpkpk';
+    chatLog['sk'] = currentTimeStamp;
+    chatLog['content'] = lastUserMessageContent;
+    chatLog['sender'] = 'user'; 
+    createChatLog(chatLog);
   }
+  if (lastAssistantMessageContent !== undefined) {
+    chatLog['pk'] = 'pkpk';
+    chatLog['sk'] = currentTimeStamp;
+    chatLog['content'] = lastAssistantMessageContent;
+    chatLog['sender'] = 'assistant'; 
+    createChatLog(chatLog);
+  } 
   // chat log end
 
   // Ask OpenAI for a streaming chat completion given the prompt
