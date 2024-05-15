@@ -1,5 +1,6 @@
 'use client';
 
+import { createChatLog } from '@/actions/chat';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/ui/button';
 import { IconUser } from '@/components/ui/icons';
@@ -13,7 +14,20 @@ interface AiChatBoxProps {
 
 export default function AIChatBox({ initialMessages }: AiChatBoxProps) {
   const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
-    useChat({ initialMessages, initialInput: '어떤 사료가 좋을까요?' });
+    useChat({
+      initialMessages,
+      initialInput: '어떤 사료가 좋을까요?',
+      onFinish(message) {
+        const assistantMessage = {
+          role: message.role,
+          content: message.content,
+          id: message.id,
+          createdAt: Date.now().toString(),
+        };
+        createChatLog(assistantMessage);
+        console.log(assistantMessage);
+      },
+    });
 
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);

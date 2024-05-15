@@ -1,14 +1,15 @@
-import { createChatLog } from '@/actions/form';
-import { Chat } from '@/types/Chat';
+import { createChatLog } from '@/actions/chat';
+import { MessageResponse } from '@/types/MessageResponse';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import OpenAI from 'openai';
+import { ulid } from 'ulid';
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-type Message = {
+type reqMessage = {
   role: string;
   content: string;
 };
@@ -17,50 +18,22 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
-  console.log(messages);
+  // 로깅해보니 role이랑 content만 넘어오네...흠
+  console.log(`POST: ${JSON.stringify(messages[messages.length - 1])}`);
 
-  // chat log start
-  const messageLog: Message[] = messages;
-  let lastUserMessageContent: string | undefined = undefined;
-  let lastAssistantMessageContent: string | undefined = undefined;
+  // messages에는 이전 대화 내용 전체가 있으므로 마지막으로 유저가 보낸 메시지만 db에 추가로 저장
+  const userMessage = messages[messages.length - 1];
   const currentTimeStamp = Date.now();
-  const chatLog: Chat = {
-    pk: "",
-    sk: 0,
-    content: "",
-    sender: "",
-  };
-  const chatLogA: Chat = {
-    pk: "",
-    sk: 0,
-    content: "",
-    sender: "",
+
+  const lastUserMessage: MessageResponse = {
+    role: userMessage.role,
+    content: userMessage.content,
+    // id값은 나중에 바꿔야 할 수도
+    id: ulid(),
+    createdAt: currentTimeStamp.toString(),
   };
 
-  messageLog.forEach((m) => {
-    if (m.role === 'user') {
-      lastUserMessageContent = m.content;
-    }
-    if (m.role === 'assistant') {
-      lastAssistantMessageContent = m.content;
-    }
-  });
-
-  if (lastUserMessageContent !== undefined) {
-    chatLog['pk'] = 'pkpkpk';
-    chatLog['sk'] = currentTimeStamp;
-    chatLog['content'] = lastUserMessageContent;
-    chatLog['sender'] = 'user'; 
-    createChatLog(chatLog);
-  }
-  if (lastAssistantMessageContent !== undefined) {
-    chatLog['pk'] = 'pkpk';
-    chatLog['sk'] = currentTimeStamp;
-    chatLog['content'] = lastAssistantMessageContent;
-    chatLog['sender'] = 'assistant'; 
-    createChatLog(chatLog);
-  } 
-  // chat log end
+  createChatLog(lastUserMessage);
 
   // Ask OpenAI for a streaming chat completion given the prompt
   const response = await openai.chat.completions.create({
@@ -73,6 +46,4 @@ export async function POST(req: Request) {
   const stream = OpenAIStream(response);
   // Respond with the stream
   return new StreamingTextResponse(stream);
-
-  // TODO : dynamoDB에 대화 저장
 }

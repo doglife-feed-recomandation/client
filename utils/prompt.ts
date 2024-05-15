@@ -6,7 +6,7 @@ export const getInitialMessages = (
   pet: PetInfo,
   recommendations: FeedRecommendation[],
 ): Message[] => {
-  console.log(getInitialPrompt(pet, recommendations));
+  // console.log(getInitialPrompt(pet, recommendations));
   return [
     {
       id: 'init',
