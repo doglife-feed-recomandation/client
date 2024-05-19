@@ -1,6 +1,9 @@
+'use client';
+
+import { createChatLog } from '@/actions/chat';
 import { Input } from '@/components/Input';
-import { Button } from '@/components/ui/buttons';
-import { IconOpenAI, IconUser } from '@/components/ui/icons';
+import { Button } from '@/components/ui/button';
+import { IconUser } from '@/components/ui/icons';
 import { cn } from '@/lib/utils';
 import { Message, useChat } from 'ai/react';
 import { useEffect, useRef } from 'react';
@@ -11,7 +14,20 @@ interface AiChatBoxProps {
 
 export default function AIChatBox({ initialMessages }: AiChatBoxProps) {
   const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
-    useChat({ initialMessages, initialInput: '어떤 사료가 좋을까요?' });
+    useChat({
+      initialMessages,
+      initialInput: '어떤 사료가 좋을까요?',
+      onFinish(message) {
+        const assistantMessage = {
+          role: message.role,
+          content: message.content,
+          id: message.id,
+          createdAt: Date.now().toString(),
+        };
+        createChatLog(assistantMessage);
+        console.log(assistantMessage);
+      },
+    });
 
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -73,7 +89,13 @@ function ChatMessage({
         isAiMessage ? 'me-5 justify-start' : 'ms-5 justify-end',
       )}
     >
-      {isAiMessage && <IconOpenAI className="mr-2 shrink-0" />}
+      {isAiMessage && (
+        <img
+          src="../chatbot_assistant.png"
+          alt="chatbot assistant"
+          className="mr-2 size-8 rounded-full object-cover"
+        />
+      )}
       <p
         className={cn(
           'whitespace-pre-line rounded-md border px-3 py-2',
@@ -82,13 +104,7 @@ function ChatMessage({
       >
         {content}
       </p>
-      {!isAiMessage && (
-        <IconUser
-          width={100}
-          height={100}
-          className="ml-2 h-10 w-10 rounded-full object-cover"
-        />
-      )}
+      {!isAiMessage && <IconUser />}
     </div>
   );
 }

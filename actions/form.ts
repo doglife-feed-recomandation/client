@@ -1,4 +1,3 @@
-import { Chat } from '@/types/Chat';
 import { PetInfo } from '@/types/PetInfo';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
@@ -46,29 +45,6 @@ export async function createPetInfo(pet: PetInfo): Promise<string> {
     throw error; // 에러를 다시 throw하여 호출자가 에러를 처리할 수 있도록 함
   }
 }
-
-
-export async function createChatLog(chat: Chat) {
-  'use server';
-
-  try {
-    const command = new PutCommand({
-      TableName: 'CHAT_LOG',
-      Item: {
-        ...chat,
-      },
-    });
-
-    const response = await docClient.send(command); // command 실행
-    console.log(
-      `chat log created successfully`
-    ); // 작업 성공 시 로그
-  } catch (error) {
-    console.error(`Error creating chat log: ${error}`); // 에러 발생 시 로그
-    throw error; // 에러를 다시 throw하여 호출자가 에러를 처리할 수 있도록 함
-  }
-}
-
 
 export const getPetInfo = async (id: string): Promise<PetInfo> => {
   'use server';

@@ -60,8 +60,8 @@ export default function PetInfoForm({
           pregnancy: false,
           allergy: false,
           allergySource: [],
-          protein: false,
-          proteinSource: [],
+          healthProblem: false,
+          healthProblemSource: [],
         }}
         onFinish={onFinish}
         autoComplete="off"
