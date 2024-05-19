@@ -34,6 +34,7 @@ export async function POST(req: Request) {
           (() => {
             throw new Error('ASSISTANT_ID is not set');
           })(),
+        model: 'gpt-4o',
       });
 
       // forward run status would stream message deltas
