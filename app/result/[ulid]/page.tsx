@@ -9,5 +9,7 @@ export default async function RecommendationPage({
 }) {
   const pet = await getPetInfo(ulid);
   const recommendations = await recommendHeuristically(pet);
-  return <RecommendResult pet={pet} recommendations={recommendations} />;
+  return (
+    <RecommendResult petId={ulid} pet={pet} recommendations={recommendations} />
+  );
 }
