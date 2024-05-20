@@ -2,7 +2,6 @@ import { createChatLog } from '@/actions/chat';
 import { MessageResponse } from '@/types/MessageResponse';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import OpenAI from 'openai';
-import { ulid } from 'ulid';
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
@@ -30,8 +29,7 @@ export async function POST(req: Request) {
   const lastUserMessage: MessageResponse = {
     role: userMessage.role,
     content: userMessage.content,
-    // id값은 나중에 바꿔야 할 수도
-    id: ulid(),
+    id: petId,
     createdAt: currentTimeStamp.toString(),
   };
 
