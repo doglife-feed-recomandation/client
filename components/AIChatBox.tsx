@@ -11,6 +11,7 @@ import { useEffect, useRef } from 'react';
 import { ulid } from 'ulid';
 
 interface AiChatBoxProps {
+  petId: string;
   initialMessages: Message[];
 }
 
@@ -21,7 +22,7 @@ const exampleMessages = [
   '저번에 사용한 사료라서 다른 사료를 추천해 주세요.',
 ];
 
-export default function AIChatBox({ initialMessages }: AiChatBoxProps) {
+export default function AIChatBox({ petId, initialMessages }: AiChatBoxProps) {
   const {
     messages,
     input,
@@ -43,6 +44,7 @@ export default function AIChatBox({ initialMessages }: AiChatBoxProps) {
       createChatLog(assistantMessage);
       console.log(assistantMessage);
     },
+    body: { petId },
   });
 
   const inputRef = useRef<HTMLInputElement>(null);

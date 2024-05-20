@@ -17,9 +17,11 @@ type reqMessage = {
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const { messages, petId } = await req.json();
   // 로깅해보니 role이랑 content만 넘어오네...흠
-  console.log(`POST: ${JSON.stringify(messages[messages.length - 1])}`);
+  console.log(
+    `[POST] petId:${petId} lastMessgage:${JSON.stringify(messages[messages.length - 1])}`,
+  );
 
   // messages에는 이전 대화 내용 전체가 있으므로 마지막으로 유저가 보낸 메시지만 db에 추가로 저장
   const userMessage = messages[messages.length - 1];
