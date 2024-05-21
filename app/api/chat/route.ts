@@ -2,7 +2,6 @@ import { createChatLog } from '@/actions/chat';
 import { MessageResponse } from '@/types/MessageResponse';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
 import OpenAI from 'openai';
-import { ulid } from 'ulid';
 
 // Create an OpenAI API client (that's edge friendly!)
 const openai = new OpenAI({
@@ -17,9 +16,11 @@ type reqMessage = {
 export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const { messages, petId } = await req.json();
   // 로깅해보니 role이랑 content만 넘어오네...흠
-  console.log(`POST: ${JSON.stringify(messages[messages.length - 1])}`);
+  console.log(
+    `[POST] petId:${petId} lastMessgage:${JSON.stringify(messages[messages.length - 1])}`,
+  );
 
   // messages에는 이전 대화 내용 전체가 있으므로 마지막으로 유저가 보낸 메시지만 db에 추가로 저장
   const userMessage = messages[messages.length - 1];
@@ -28,8 +29,7 @@ export async function POST(req: Request) {
   const lastUserMessage: MessageResponse = {
     role: userMessage.role,
     content: userMessage.content,
-    // TODO : form 제출시 받은 ulid로 변경
-    id: ulid(),
+    id: petId,
     createdAt: currentTimeStamp.toString(),
   };
 
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
 
   // Ask OpenAI for a streaming chat completion given the prompt
   const response = await openai.chat.completions.create({
-    model: 'gpt-4-turbo',
+    model: 'gpt-4o',
     stream: true,
     messages,
   });

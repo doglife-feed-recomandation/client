@@ -10,7 +10,6 @@ import {
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import {
   Button,
-  DatePicker,
   Flex,
   Form,
   Input,
@@ -23,7 +22,56 @@ import {
 } from 'antd';
 
 import { Dayjs } from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import React from 'react';
+
+type Brith = `${string}-${string}`;
+
+interface PriceInputProps {
+  id?: string;
+  value?: Brith;
+  onChange?: (value: Brith) => void;
+}
+
+const BirthInput: React.FC<PriceInputProps> = (props) => {
+  const { id, value, onChange } = props;
+  const [year, setYear] = useState('2024');
+  const [month, setMonth] = useState('6');
+
+  useEffect(() => {
+    onChange?.(`${year}-${month}`);
+  }, [year, month]);
+
+  const [givenYear, givenMonth] = value
+    ? value.split('-')
+    : [undefined, undefined];
+
+  return (
+    <div id={id} className="flex flex-row gap-4">
+      <Select
+        value={givenYear || month}
+        onChange={(v) => setYear(v)}
+        options={Array.from({ length: 25 }, (_, i) => ({
+          value: (2024 - i).toString(),
+          label: (2024 - i).toString(),
+        }))}
+        size="small"
+        style={{ width: 'fit-content', minWidth: 80 }}
+      />
+      <Select
+        value={givenMonth || month}
+        onChange={(v) => setMonth(v)}
+        options={Array.from({ length: 12 }, (_, i) => ({
+          value: (i + 1).toString(),
+          label: (i + 1).toString(),
+        }))}
+        size="small"
+        style={{ width: 'fit-content', minWidth: 80 }}
+      />
+    </div>
+  );
+};
 
 export default function PetInfoForm({
   onSubmit,
@@ -39,13 +87,9 @@ export default function PetInfoForm({
   ) => {
     pet.allergy = pet.allergySource?.length !== 0 || false;
     pet.healthProblem = pet.healthProblemSource?.length !== 0 || false;
-    const payload: PetInfo = {
-      ...pet,
-      birth: pet.birth.format('YYYY-MM'),
-    };
 
-    console.log(payload);
-    await onSubmit(payload);
+    console.log(pet);
+    await onSubmit(pet);
   };
 
   return (
@@ -114,7 +158,7 @@ export default function PetInfoForm({
           name="birth"
           rules={[{ required: true, message: '생년월을 선택해주세요' }]}
         >
-          <DatePicker picker="month" />
+          <BirthInput />
         </Form.Item>
 
         <Form.Item<PetInfo>

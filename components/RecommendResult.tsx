@@ -24,9 +24,11 @@ const SAMPLE_IMAGE: string[] = [
 ];
 
 export default function RecommendResult({
+  petId,
   pet,
   recommendations,
 }: {
+  petId: string;
   pet: PetInfo;
   recommendations: FeedRecommendation[];
 }) {
@@ -59,7 +61,10 @@ export default function RecommendResult({
         <CarouselNext />
       </Carousel>
       <div className="w-full">
-        <AIChatBox initialMessages={getInitialMessages(pet, recommendations)} />
+        <AIChatBox
+          petId={petId}
+          initialMessages={getInitialMessages(pet, recommendations)}
+        />
       </div>
     </div>
   );
