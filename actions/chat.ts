@@ -26,9 +26,10 @@ const docClient = DynamoDBDocumentClient.from(
 );
 
 export async function createChatLog(message: MessageResponse) {
-  chatLog['pk'] = 'pkpk';
-  // TODO : currentTimeStamp 대신 message의 createdAt을 사용하도록 수정
-  chatLog['sk'] = currentTimeStamp;
+  chatLog['pk'] = message.id;
+  if (isNaN(Number(message.createdAt)) == false){
+    chatLog['sk'] = Number(message.createdAt);
+  }
   chatLog['content'] = message.content;
   chatLog['sender'] = message.role;
 
