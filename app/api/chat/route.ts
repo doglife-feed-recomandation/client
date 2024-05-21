@@ -28,7 +28,7 @@ export async function POST(req: Request) {
   const lastUserMessage: MessageResponse = {
     role: userMessage.role,
     content: userMessage.content,
-    // id값은 나중에 바꿔야 할 수도
+    // TODO : form 제출시 받은 ulid로 변경
     id: ulid(),
     createdAt: currentTimeStamp.toString(),
   };
