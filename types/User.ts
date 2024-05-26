@@ -1,7 +1,7 @@
 
 export interface User {
-    dogId: string;
-    dogName: string;
+    petId: string;
+    petName: string;
     hashedEmail: string;
     createdAt: number;
 }

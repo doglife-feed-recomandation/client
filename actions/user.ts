@@ -37,14 +37,14 @@ export async function createUser(user: User) {
 }
 
 
-export const getUser = async (dogName: string, hashedEmail: string): Promise<User> => {
+export const getUser = async (petName: string, hashedEmail: string): Promise<User> => {
   'use server';
 
   try {
     const command = new GetCommand({
       TableName: 'USER',
       Key: {
-        dogName: dogName,
+        petName: petName,
         hashedEmail: hashedEmail 
       },
     });
