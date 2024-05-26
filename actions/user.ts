@@ -1,8 +1,9 @@
 import { User } from '@/types/User';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import {
-    DynamoDBDocumentClient,
-    PutCommand,
+  DynamoDBDocumentClient,
+  GetCommand,
+  PutCommand
 } from '@aws-sdk/lib-dynamodb';
 
 // DynamoDB 클라이언트 초기화
@@ -34,3 +35,24 @@ export async function createUser(user: User) {
     throw error;
   }
 }
+
+
+export const getUser = async (dogName: string, hashedEmail: string): Promise<User> => {
+  'use server';
+
+  try {
+    const command = new GetCommand({
+      TableName: 'USER',
+      Key: {
+        dogName: dogName,
+        hashedEmail: hashedEmail 
+      },
+    });
+
+    const response = await docClient.send(command);
+    return response.Item as User;
+  } catch (error) {
+    console.error(`Error getting User: ${error}`);
+    throw error;
+  }
+};
