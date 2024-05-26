@@ -24,6 +24,7 @@ import {
 import { Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
 
+import { sendGAEvent } from '@next/third-parties/google';
 import React from 'react';
 
 type Brith = `${string}-${string}`;
@@ -88,7 +89,8 @@ export default function PetInfoForm({
     pet.allergy = pet.allergySource?.length !== 0 || false;
     pet.healthProblem = pet.healthProblemSource?.length !== 0 || false;
 
-    console.log(pet);
+    sendGAEvent('event', 'submit_form', pet);
+
     await onSubmit(pet);
   };
 
