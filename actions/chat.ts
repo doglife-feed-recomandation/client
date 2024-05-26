@@ -3,7 +3,7 @@
 import { docClient } from '@/lib/aws';
 import { Chat } from '@/types/Chat';
 import { MessageResponse } from '@/types/MessageResponse';
-import { GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 
 const currentTimeStamp = Date.now();
 const chatLog: Chat = {
@@ -35,25 +35,29 @@ export async function createChatLog(message: MessageResponse) {
     console.log(`chat log created successfully`); // 작업 성공 시 로그
   } catch (error) {
     console.error(`Error creating chat log: ${error}`); // 에러 발생 시 로그
-    throw error; // 에러를 다시 throw하여 호출자가 에러를 처리할 수 있도록 함
+    throw error;
   }
 }
 
-export const getChatLog = async (petId: string): Promise<Chat> => {
+export const getChatLog = async (petId: string): Promise<Chat[]> => {
   'use server';
 
   try {
-    const command = new GetCommand({
+    const command = new QueryCommand({
       TableName: 'USER',
-      Key: {
-        pk: petId
+      KeyConditionExpression: 'pk = :petId',
+      ExpressionAttributeValues: {
+        ':petId': petId,
       },
     });
 
     const response = await docClient.send(command);
-    return response.Item as Chat;
+    if (response.Items) {
+      return response.Items as Chat[];
+    }
+    return [];
   } catch (error) {
-    console.error(`Error getting User: ${error}`);
+    console.error(`Error getting chat log: ${error}`);
     throw error;
   }
 };
