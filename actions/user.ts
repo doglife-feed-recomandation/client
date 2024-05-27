@@ -1,9 +1,29 @@
 import { docClient } from '@/lib/aws';
+import { encrypt } from '@/lib/crypt';
+import { PetInfo } from '@/types/PetInfo';
 import { User } from '@/types/User';
 import {
   GetCommand,
   PutCommand
 } from '@aws-sdk/lib-dynamodb';
+import { getPetInfo } from './form';
+
+
+export async function encryptUserEmail(petId: string, email: string): Promise<User> {
+  const currentTimeStamp: number = Date.now();
+  const petInfo: PetInfo = await getPetInfo(petId);
+  const petName: string = petInfo.name;
+  const encryptedEmail: string = encrypt(email);
+  console.log(encryptedEmail); // console.log - encryptedEmail
+
+  const encrypteduser: User = {
+    petId: petId,
+    petName: petName,
+    encryptedEmail: encryptedEmail,
+    createdAt: currentTimeStamp
+  }
+  return encrypteduser;
+}
 
 
 export async function createUser(user: User) {
@@ -25,15 +45,17 @@ export async function createUser(user: User) {
 }
 
 
-export const getUser = async (petName: string, hashedEmail: string): Promise<User> => {
+export const getUser = async (petName: string, email: string): Promise<User> => {
   'use server';
 
   try {
+    const encryptedEmail: string = encrypt(email);
+
     const command = new GetCommand({
       TableName: 'USER',
       Key: {
         petName: petName,
-        hashedEmail: hashedEmail 
+        encryptedEmail: encryptedEmail 
       },
     });
 
