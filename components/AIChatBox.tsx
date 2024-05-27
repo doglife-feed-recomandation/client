@@ -38,7 +38,7 @@ export default function AIChatBox({ petId, initialMessages }: AiChatBoxProps) {
       const assistantMessage = {
         role: message.role,
         content: message.content,
-        id: message.id, // 얘도 전달받은 ulid값으로
+        id: petId,
         createdAt: Date.now().toString(),
       };
       createChatLog(assistantMessage);
