@@ -6,10 +6,12 @@ import {
   HealthProblem,
   PetInfo,
   Sex,
+  personalInfoCollectDescription,
 } from '@/types/PetInfo';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import {
   Button,
+  Checkbox,
   Flex,
   Form,
   Input,
@@ -108,6 +110,7 @@ export default function PetInfoForm({
           allergySource: [],
           healthProblem: false,
           healthProblemSource: [],
+          personalInfoCollectDescription: false,
         }}
         onFinish={onFinish}
         autoComplete="off"
@@ -245,7 +248,32 @@ export default function PetInfoForm({
           ></Select>
         </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item<PetInfo> label="이메일 주소를 입력해주세요" name="email">
+          <Input type="email" />
+        </Form.Item>
+
+        <div className="mb-2">개인정보 수집 및 이용</div>
+        <div className="border p-4 rounded-lg overflow-y-auto h-24">
+          {personalInfoCollectDescription.map((description, index) => (
+            <p key={index}>
+              {description.label}
+              <br />
+              {description.content}
+              {index !== personalInfoCollectDescription.length - 1 && (
+                <>
+                  <br />
+                  <br />
+                </>
+              )}
+            </p>
+          ))}
+        </div>
+
+        <Form.Item<PetInfo> name="personalInfoCollectAgree">
+          <Checkbox>개인정보 수집 및 이용에 동의합니다.</Checkbox>
+        </Form.Item>
+
+        <Form.Item className="flex justify-center">
           <Button type="primary" htmlType="submit">
             제출 하기
           </Button>
