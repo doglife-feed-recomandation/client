@@ -1,7 +1,7 @@
 
 export interface User {
+    encryptedEmail: string; // pk
+    petName: string; // sk
     petId: string;
-    petName: string;
-    encryptedEmail: string;
     createdAt: number;
 }

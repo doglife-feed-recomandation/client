@@ -3,7 +3,7 @@
 import { docClient } from '@/lib/aws';
 import { encrypt } from '@/lib/crypt';
 import { User } from '@/types/User';
-import { GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 
 export async function encryptUserEmail(
   petId: string,
@@ -35,6 +35,7 @@ export async function createUser(user: User) {
     });
 
     const response = await docClient.send(command); // command 실행
+    console.log(response);
   } catch (error) {
     console.error(`Error creating user: ${error}`); // 에러 발생 시 로그
     throw error;
@@ -48,33 +49,27 @@ export const getUser = async (
   try {
     const encryptedEmail: string = encrypt(email);
 
-    const command = new GetCommand({
+    const command = new QueryCommand({
       TableName: 'USER',
-      Key: {
-        petName: petName,
-        encryptedEmail: encryptedEmail,
+      KeyConditionExpression:
+        'encryptedEmail = :encryptedEmail AND petName = :petName',
+      ExpressionAttributeValues: {
+        ':encryptedEmail': encryptedEmail,
+        ':petName': petName,
       },
     });
 
     const response = await docClient.send(command);
-    return response.Item as User;
-  } catch (error) {
-    console.error(`Error getting User: ${error}`);
-    throw error;
-  }
-};
 
-export const getUserByPetId = async (petId: string): Promise<User> => {
-  try {
-    const command = new GetCommand({
-      TableName: 'USER',
-      Key: {
-        dogId: petId,
-      },
-    });
-
-    const response = await docClient.send(command);
-    return response.Item as User;
+    // 반환된 항목 확인
+    if (!response.Items || response.Items.length === 0) {
+      throw new Error('Error getting User: User not found.');
+    } else if (response.Items.length > 1) {
+      throw new Error('Error getting User: multiple same users.');
+    } else {
+      console.log('getUser result : ', response.Items[0]); // console.log
+      return response.Items[0] as User;
+    }
   } catch (error) {
     console.error(`Error getting User: ${error}`);
     throw error;
