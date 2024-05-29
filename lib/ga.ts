@@ -1,6 +1,6 @@
 import { sendGAEvent as _sendGAEvent } from '@next/third-parties/google';
 
-export function sendGAEvent(action: string, data: string | Object) {
+export function sendGAEvent(action: string, data: string | any) {
   const nodeEnv = process.env.NODE_ENV;
 
   const envTag =
