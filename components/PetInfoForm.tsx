@@ -1,5 +1,6 @@
 'use client';
 
+import { sendGAEvent } from '@/lib/ga';
 import {
   AllergySource,
   Breed,
@@ -22,10 +23,7 @@ import {
 } from 'antd';
 
 import { Dayjs } from 'dayjs';
-import { useEffect, useState } from 'react';
-
-import { sendGAEvent } from '@next/third-parties/google';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Brith = `${string}-${string}`;
 
@@ -89,7 +87,7 @@ export default function PetInfoForm({
     pet.allergy = pet.allergySource?.length !== 0 || false;
     pet.healthProblem = pet.healthProblemSource?.length !== 0 || false;
 
-    sendGAEvent('event', 'submit_form', pet);
+    sendGAEvent('submit_form', pet);
 
     await onSubmit(pet);
   };

@@ -1,8 +1,8 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { sendGAEvent } from '@/lib/ga';
 
 import { FeedRecommendation } from '@/types/Feed';
 import { PetInfo } from '@/types/PetInfo';
-import { sendGAEvent } from '@next/third-parties/google';
 
 export default function RecommendationCard({
   imgSrc,
@@ -19,7 +19,7 @@ export default function RecommendationCard({
     <Card
       className="p-4 hover:bg-zinc-100 h-[95%]"
       onClick={() => {
-        sendGAEvent('event', 'click_recommended_feed', {
+        sendGAEvent('click_recommended_feed', {
           feed_id: recommendation.feed.id,
           feed_name: recommendation.feed.name,
           pet_id: petId,
