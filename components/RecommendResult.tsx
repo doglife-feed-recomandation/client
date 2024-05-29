@@ -2,7 +2,6 @@
 import { FeedRecommendation } from '@/types/Feed';
 import { PetInfo } from '@/types/PetInfo';
 
-import { getInitialMessages } from '@/utils/prompt';
 import AIChatBox from './AIChatBox';
 import RecommendationCard from './RecommendationCard';
 
@@ -13,6 +12,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+
+import { Message } from 'ai';
 
 const SAMPLE_IMAGE: string[] = [
   'https://images.pet-friends.co.kr/storage/pet_friends/product/id/b/3/6/3/5/7/7/b363577c819e69bc130f6d920a6d38b0/10000/c3052822fd73a27225aac340eedad67a.jpeg',
@@ -27,10 +28,12 @@ export default function RecommendResult({
   petId,
   pet,
   recommendations,
+  initialMessages,
 }: {
   petId: string;
   pet: PetInfo;
   recommendations: FeedRecommendation[];
+  initialMessages: Message[];
 }) {
   return (
     <div className="w-full flex flex-col rounded border bg-background shadow-xl">
@@ -63,10 +66,7 @@ export default function RecommendResult({
         <CarouselNext />
       </Carousel>
       <div className="w-full">
-        <AIChatBox
-          petId={petId}
-          initialMessages={getInitialMessages(pet, recommendations)}
-        />
+        <AIChatBox petId={petId} initialMessages={initialMessages} />
       </div>
     </div>
   );

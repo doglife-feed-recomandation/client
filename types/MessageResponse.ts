@@ -1,6 +1,6 @@
 export interface MessageResponse {
   content: string;
-  createdAt: string;
+  createdAt: number;
   id: string;
   role: string;
 }

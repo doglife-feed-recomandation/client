@@ -1,19 +1,33 @@
+import { getChatLog } from '@/actions/chat';
+import { getUserByPetId } from '@/actions/user';
 import { Feed, FeedRecommendation } from '@/types/Feed';
 import { PetInfo } from '@/types/PetInfo';
 import { Message } from 'ai';
 
-export const getInitialMessages = (
+export const getInitialMessages = async (
   pet: PetInfo,
+  petId: string,
   recommendations: FeedRecommendation[],
-): Message[] => {
+): Promise<Message[]> => {
   // console.log(getInitialPrompt(pet, recommendations));
-  return [
-    {
-      id: 'init',
-      role: 'system',
-      content: getInitialPrompt(pet, recommendations),
-    },
-  ];
+  const user = await getUserByPetId(petId);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  const chatLog = await getChatLog(user.petId);
+
+  const prevChatLog = chatLog.map((message) => ({
+    content: message.content,
+    role: message.sender === 'assistant' ? 'assistant' : 'user',
+  })) as Message[];
+
+  prevChatLog.unshift({
+    id: 'init',
+    role: 'system',
+    content: getInitialPrompt(pet, recommendations),
+  } as Message);
+
+  return prevChatLog;
 };
 
 const getInitialPrompt = (

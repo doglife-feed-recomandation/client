@@ -39,7 +39,7 @@ export default function AIChatBox({ petId, initialMessages }: AiChatBoxProps) {
         role: message.role,
         content: message.content,
         id: petId,
-        createdAt: Date.now().toString(),
+        createdAt: Date.now(),
       };
       createChatLog(assistantMessage);
       console.log(assistantMessage);
@@ -81,6 +81,7 @@ export default function AIChatBox({ petId, initialMessages }: AiChatBoxProps) {
             ))}
           </div>
         )}
+
         {messages.slice(1).map((message) => (
           <ChatMessage message={message} key={message.id} />
         ))}

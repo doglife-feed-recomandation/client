@@ -1,18 +1,16 @@
+'use server';
+
 import { docClient } from '@/lib/aws';
 import { encrypt } from '@/lib/crypt';
-import { PetInfo } from '@/types/PetInfo';
 import { User } from '@/types/User';
-import {
-  GetCommand,
-  PutCommand
-} from '@aws-sdk/lib-dynamodb';
-import { getPetInfo } from './form';
+import { GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
-
-export async function encryptUserEmail(petId: string, email: string): Promise<User> {
+export async function encryptUserEmail(
+  petId: string,
+  email: string,
+  petName: string,
+): Promise<User> {
   const currentTimeStamp: number = Date.now();
-  const petInfo: PetInfo = await getPetInfo(petId);
-  const petName: string = petInfo.name;
   const encryptedEmail: string = encrypt(email);
   console.log(encryptedEmail); // console.log - encryptedEmail
 
@@ -20,19 +18,18 @@ export async function encryptUserEmail(petId: string, email: string): Promise<Us
     petId: petId,
     petName: petName,
     encryptedEmail: encryptedEmail,
-    createdAt: currentTimeStamp
-  }
+    createdAt: currentTimeStamp,
+  };
   return encrypteduser;
 }
 
-
 export async function createUser(user: User) {
-  'use server';
-
   try {
     const command = new PutCommand({
       TableName: 'USER',
       Item: {
+        // TODO: dogId 필요해서 일단 petId랑 같게 넣었는데 수정 필요
+        dogId: user.petId,
         ...user,
       },
     });
@@ -44,10 +41,10 @@ export async function createUser(user: User) {
   }
 }
 
-
-export const getUser = async (petName: string, email: string): Promise<User> => {
-  'use server';
-
+export const getUser = async (
+  petName: string,
+  email: string,
+): Promise<User> => {
   try {
     const encryptedEmail: string = encrypt(email);
 
@@ -55,7 +52,24 @@ export const getUser = async (petName: string, email: string): Promise<User> => 
       TableName: 'USER',
       Key: {
         petName: petName,
-        encryptedEmail: encryptedEmail 
+        encryptedEmail: encryptedEmail,
+      },
+    });
+
+    const response = await docClient.send(command);
+    return response.Item as User;
+  } catch (error) {
+    console.error(`Error getting User: ${error}`);
+    throw error;
+  }
+};
+
+export const getUserByPetId = async (petId: string): Promise<User> => {
+  try {
+    const command = new GetCommand({
+      TableName: 'USER',
+      Key: {
+        dogId: petId,
       },
     });
 
