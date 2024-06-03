@@ -12,7 +12,6 @@ export async function encryptUserEmail(
 ): Promise<User> {
   const currentTimeStamp: number = Date.now();
   const encryptedEmail: string = encrypt(email);
-  console.log(encryptedEmail); // console.log - encryptedEmail
 
   const encrypteduser: User = {
     petId: petId,
@@ -28,8 +27,6 @@ export async function createUser(user: User) {
     const command = new PutCommand({
       TableName: 'USER',
       Item: {
-        // TODO: dogId 필요해서 일단 petId랑 같게 넣었는데 수정 필요
-        dogId: user.petId,
         ...user,
       },
     });
@@ -43,8 +40,8 @@ export async function createUser(user: User) {
 }
 
 export const getUser = async (
-  petName: string,
   email: string,
+  petName: string,
 ): Promise<User> => {
   try {
     const encryptedEmail: string = encrypt(email);

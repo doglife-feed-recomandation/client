@@ -1,16 +1,27 @@
 import { getChatLog } from '@/actions/chat';
-import { getUserByPetId } from '@/actions/user';
+import { getUser } from '@/actions/user';
 import { Feed, FeedRecommendation } from '@/types/Feed';
 import { PetInfo } from '@/types/PetInfo';
 import { Message } from 'ai';
 
 export const getInitialMessages = async (
   pet: PetInfo,
-  petId: string,
   recommendations: FeedRecommendation[],
 ): Promise<Message[]> => {
   // console.log(getInitialPrompt(pet, recommendations));
-  const user = await getUserByPetId(petId);
+  // 이메일이 없으면 그냥 초기 프롬프트만 받아오기
+  if (pet.email === undefined) {
+    const initialMessage = [
+      {
+        id: 'init',
+        role: 'system',
+        content: getInitialPrompt(pet, recommendations),
+      } as Message,
+    ];
+    return initialMessage;
+  }
+
+  const user = await getUser(pet.email, pet.name);
   if (!user) {
     throw new Error('User not found');
   }

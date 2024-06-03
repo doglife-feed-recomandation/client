@@ -30,7 +30,7 @@ import { Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getUser } from '@/actions/user';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 type Brith = `${string}-${string}`;
@@ -86,12 +86,13 @@ interface UserInfo {
 }
 
 function UserInfoForm() {
+  const router = useRouter();
   const onFinish = async (user: UserInfo) => {
     try {
       const foundUser = await getUser(user.email, user.petName);
-      redirect(`../result/${foundUser.petId}`);
+      router.push(`/result/${foundUser.petId}`);
     } catch (e) {
-      console.error('User not found');
+      console.error('User not found', e);
       alert('입력하신 정보로 찾을 수 없습니다. 다시 시도해주세요.');
     }
   };
