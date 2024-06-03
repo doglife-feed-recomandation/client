@@ -171,7 +171,7 @@ export default function PetInfoForm({
         >
           <div className="relative">
             <img className="w-full" src="/banner.png" alt="banner" />
-            <div className="absolute z-10 left-24 bottom-24">
+            <div className="absolute z-10 left-[3%] bottom-[20%]">
               <Popover content={UserInfoForm} trigger="click">
                 <Button type="primary" className="bg-primary">
                   반려견 정보를 입력한 적이 있으신가요?
