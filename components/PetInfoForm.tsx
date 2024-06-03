@@ -26,7 +26,6 @@ import {
   TreeSelect,
 } from 'antd';
 
-import { Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
 
 import { getUser } from '@/actions/user';
@@ -129,12 +128,9 @@ export default function PetInfoForm({
 }) {
   const [sex, setSex] = useState<Sex>();
   const [agree, setAgree] = useState(false);
+  const [showPolicy, setShowPolicy] = useState(false);
 
-  const onFinish = async (
-    pet: PetInfo & {
-      birth: Dayjs;
-    },
-  ) => {
+  const onFinish = async (pet: PetInfo) => {
     pet.allergy = pet.allergySource?.length !== 0 || false;
     pet.healthProblem = pet.healthProblemSource?.length !== 0 || false;
 
@@ -317,34 +313,46 @@ export default function PetInfoForm({
             <Input type="email" />
           </Form.Item>
 
-          {agree && (
-            <div>
-              <span className="mb-2">개인정보 수집 및 이용</span>
-              <div className="border p-4 rounded-lg overflow-y-auto h-24">
-                {personalInfoCollectDescription.map((description, index) => (
-                  <p key={index}>
-                    {description.label}
-                    <br />
-                    {description.content}
-                    {index !== personalInfoCollectDescription.length - 1 && (
-                      <>
-                        <br />
-                        <br />
-                      </>
-                    )}
-                  </p>
-                ))}
-              </div>
-            </div>
-          )}
-
           <Form.Item<PetInfo>
             name="personalInfoCollectAgree"
             valuePropName="checked"
           >
-            <Checkbox onChange={(e) => setAgree(() => !agree)}>
-              개인정보 수집 및 이용에 동의합니다.
+            <Checkbox
+              value={agree}
+              onChange={(e) => setAgree(e.target.checked)}
+            >
+              <span
+                className="hover:underline cursor-pointer text-primary"
+                onClick={(e) => {
+                  setShowPolicy(!showPolicy);
+                  e.stopPropagation();
+                }}
+              >
+                개인정보 수집 및 이용에 동의합니다. (입력하신 개인정보는 상담
+                기록 불러오기를 위해서만 사용됩니다)
+              </span>
             </Checkbox>
+
+            {showPolicy && (
+              <div>
+                <span className="mb-2">개인정보 수집 및 이용</span>
+                <div className="border p-4 rounded-lg overflow-y-auto h-24">
+                  {personalInfoCollectDescription.map((description, index) => (
+                    <p key={index}>
+                      {description.label}
+                      <br />
+                      {description.content}
+                      {index !== personalInfoCollectDescription.length - 1 && (
+                        <>
+                          <br />
+                          <br />
+                        </>
+                      )}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
           </Form.Item>
 
           <Form.Item className="flex justify-center">
