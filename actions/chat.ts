@@ -13,11 +13,9 @@ const chatLog: Chat = {
   sender: '',
 };
 
-
-
 export async function createChatLog(message: MessageResponse) {
   chatLog['pk'] = message.id;
-  if (isNaN(Number(message.createdAt)) == false){
+  if (isNaN(Number(message.createdAt)) == false) {
     chatLog['sk'] = Number(message.createdAt);
   }
   chatLog['content'] = message.content;
@@ -44,7 +42,7 @@ export const getChatLog = async (petId: string): Promise<Chat[]> => {
 
   try {
     const command = new QueryCommand({
-      TableName: 'USER',
+      TableName: 'CHAT_LOG',
       KeyConditionExpression: 'pk = :petId',
       ExpressionAttributeValues: {
         ':petId': petId,

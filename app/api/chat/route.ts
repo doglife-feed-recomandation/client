@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     role: userMessage.role,
     content: userMessage.content,
     id: petId,
-    createdAt: currentTimeStamp.toString(),
+    createdAt: currentTimeStamp,
   };
 
   createChatLog(lastUserMessage);
