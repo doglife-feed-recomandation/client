@@ -298,7 +298,7 @@ export default function PetInfoForm({
             name="healthProblemSource"
           >
             <Select
-              mode="multiple"
+              mode="tags"
               allowClear
               style={{ width: '100%' }}
               placeholder="없음"
