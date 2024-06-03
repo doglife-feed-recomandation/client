@@ -40,6 +40,7 @@ export async function POST(req: Request) {
     model: 'gpt-4o',
     stream: true,
     messages,
+    temperature: 0,
   });
 
   // Convert the response into a friendly text-stream
