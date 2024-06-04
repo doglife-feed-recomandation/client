@@ -9,8 +9,19 @@ export async function getAllFeeds() {
   });
 
   try {
+    let feeds: Feed[] = [];
+
     const result = await docClient.send(command);
-    const feeds = (result.Items as Feed[]) || [];
+    feeds = feeds.concat(result.Items as Feed[]);
+    while (result.LastEvaluatedKey) {
+      const nextCommand = new ScanCommand({
+        TableName: 'FEED_INFO',
+        ExclusiveStartKey: result.LastEvaluatedKey,
+      });
+      const nextResult = await docClient.send(nextCommand);
+      feeds = feeds.concat(nextResult.Items as Feed[]);
+    }
+
     const sortedFeeds = feeds.sort((a, b) => a.id - b.id);
     return sortedFeeds;
   } catch (error) {
