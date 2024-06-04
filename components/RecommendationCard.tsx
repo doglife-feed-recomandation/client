@@ -15,7 +15,7 @@ export default function RecommendationCard({
 }) {
   return (
     <Card
-      className="p-4 hover:bg-zinc-100 h-[95%]"
+      className="p-4 hover:bg-zinc-100  sm:p-1"
       onClick={() => {
         sendGAEvent('click_recommended_feed', {
           feed_id: recommendation.feed.id,
@@ -36,8 +36,8 @@ export default function RecommendationCard({
               loading="lazy"
               className="mx-auto"
               style={{
-                width: '90%',
-                height: '90%',
+                width: '100%',
+                height: '100%',
                 objectFit: 'cover',
               }}
             />
