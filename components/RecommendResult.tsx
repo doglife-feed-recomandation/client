@@ -54,7 +54,6 @@ export default function RecommendResult({
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-3/12">
               <RecommendationCard
                 key={recommendation.feed.id}
-                imgSrc={SAMPLE_IMAGE[index % SAMPLE_IMAGE.length]}
                 recommendation={recommendation}
                 petId={petId}
                 pet={pet}

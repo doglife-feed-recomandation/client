@@ -86,10 +86,12 @@ const getPetInfoPrompt = (pet: PetInfo) => {
 const getRecommendationsPrompt = (recommendations: FeedRecommendation[]) => {
   return JSON.stringify(
     recommendations.map((recommendation) => ({
-      사료명: recommendation.feed.name,
+      사료명: recommendation.feed.storeName,
       '추천 이유': recommendation.reasons,
       점수: recommendation.score,
       '사료 성분': getFeedPrompt(recommendation.feed),
+      '사료의 장점': recommendation.feed.points,
+      '사료의 장점 설명': recommendation.feed.descriptions,
     })),
   );
 };
@@ -126,7 +128,9 @@ const getFeedPrompt = (feed: Feed) => {
 
   // remove undefined values
   return Object.fromEntries(
-    Object.entries(feedDescribed).filter(([_, value]) => value),
+    Object.entries(feedDescribed).filter(
+      ([_, value]) => value && value != 0 && value != '0',
+    ),
   );
 };
 

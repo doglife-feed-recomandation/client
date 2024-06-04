@@ -30,10 +30,25 @@ export interface Feed {
   type: string;
   vitaminE: number;
   weight: number;
+
+  // store
+  storeName?: string;
+  storeLink?: string;
+  imgSrc?: string;
+
+  // descriptions
+  points?: string[];
+  descriptions?: string[];
+}
+
+export interface RecommendableFeed extends Feed {
+  storeName: string;
+  storeLink: string;
+  imgSrc: string;
 }
 
 export interface FeedRecommendation {
-  feed: Feed;
+  feed: RecommendableFeed;
   reasons: string[];
   score: number;
 }

@@ -5,12 +5,10 @@ import { FeedRecommendation } from '@/types/Feed';
 import { PetInfo } from '@/types/PetInfo';
 
 export default function RecommendationCard({
-  imgSrc,
   recommendation,
   petId,
   pet,
 }: {
-  imgSrc: string;
   recommendation: FeedRecommendation;
   petId: string;
   pet: PetInfo;
@@ -25,19 +23,21 @@ export default function RecommendationCard({
           pet_id: petId,
           pet_name: pet.name,
         });
+
+        window.open(recommendation.feed.storeLink, '_blank');
       }}
     >
       <CardContent>
         <div className="space-y-6">
           <div className="mx-auto">
             <img
-              alt={recommendation.feed.name}
-              src={imgSrc}
+              alt={recommendation.feed.storeName}
+              src={recommendation.feed.imgSrc}
               loading="lazy"
               className="mx-auto"
               style={{
-                width: '120px',
-                height: '120px',
+                width: '90%',
+                height: '90%',
                 objectFit: 'cover',
               }}
             />
@@ -49,11 +49,14 @@ export default function RecommendationCard({
             }}
           >
             <div className="text-base font-semibold">
-              {recommendation.feed.name}
+              {recommendation.feed.storeName}
             </div>
 
             <div className="text-xs">
-              {recommendation.reasons.map((reason, i) => (
+              {[
+                ...recommendation.reasons,
+                ...(recommendation.feed.points || []),
+              ].map((reason, i) => (
                 <div key={i}>✓ {reason}</div>
               ))}
             </div>

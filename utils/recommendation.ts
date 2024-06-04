@@ -1,22 +1,34 @@
 import { getAllFeeds } from '@/actions/db';
-import { FeedRecommendation } from '@/types/Feed';
+import { Feed, FeedRecommendation, RecommendableFeed } from '@/types/Feed';
 import { PetInfo, Sex } from '@/types/PetInfo';
 import { calculateAgeInMonths } from './prompt';
 
+const isFeedRecommendable = (feed: Feed): feed is RecommendableFeed => {
+  return (
+    feed.crudeProtein !== undefined &&
+    feed.crudeProtein !== 0 &&
+    feed.storeLink !== undefined &&
+    feed.imgSrc !== undefined &&
+    feed.storeName !== undefined
+  );
+};
+
 export const recommendHeuristically = async (
   pet: PetInfo,
-  num_recommend = 10,
+  num_recommend = 20,
 ): Promise<FeedRecommendation[]> => {
   'use server';
-  let recommendations: FeedRecommendation[] = (await getAllFeeds()).map(
-    (feed) => {
-      return {
-        feed,
-        reasons: [],
-        score: 0,
-      };
-    },
+  const recommendableFeeds: RecommendableFeed[] = (await getAllFeeds()).filter(
+    isFeedRecommendable,
   );
+
+  let recommendations: FeedRecommendation[] = recommendableFeeds.map((feed) => {
+    return {
+      feed,
+      reasons: [],
+      score: 0,
+    };
+  });
 
   // Step 2: 알러지 스크리닝
   if (pet.allergy && pet.allergySource && pet.allergySource.length > 0) {
