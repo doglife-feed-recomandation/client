@@ -130,14 +130,13 @@ export default function PetInfoForm({
   const [showPolicy, setShowPolicy] = useState(false);
 
   const onFinish = async (pet: PetInfo) => {
-    if (
-      (pet.personalInfoCollectAgree === false ||
-        pet.personalInfoCollectAgree === undefined) &&
-      pet.email?.length !== 0
-    ) {
+    console.log(pet);
+
+    if (pet.personalInfoCollectAgree === false && pet.email !== '') {
       alert('개인정보 수집 및 이용에 동의해주세요.');
       return;
     }
+
     pet.allergy = pet.allergySource?.length !== 0 || false;
     pet.healthProblem = pet.healthProblemSource?.length !== 0 || false;
 
@@ -170,6 +169,7 @@ export default function PetInfoForm({
             healthProblem: false,
             healthProblemSource: [],
             personalInfoCollectAgree: false,
+            email: '',
           }}
           onFinish={onFinish}
           autoComplete="off"
@@ -324,7 +324,7 @@ export default function PetInfoForm({
             name="personalInfoCollectAgree"
             valuePropName="checked"
           >
-            <Checkbox>
+            <Checkbox onChange={(e) => console.log(e.target.value)}>
               <span
                 className="hover:underline cursor-pointer text-primary"
                 onClick={(e) => {
