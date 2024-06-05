@@ -1,19 +1,44 @@
+import { getChatLog } from '@/actions/chat';
+import { getUser } from '@/actions/user';
 import { Feed, FeedRecommendation } from '@/types/Feed';
 import { PetInfo } from '@/types/PetInfo';
 import { Message } from 'ai';
 
-export const getInitialMessages = (
+export const getInitialMessages = async (
   pet: PetInfo,
   recommendations: FeedRecommendation[],
-): Message[] => {
+): Promise<Message[]> => {
   // console.log(getInitialPrompt(pet, recommendations));
-  return [
-    {
-      id: 'init',
-      role: 'system',
-      content: getInitialPrompt(pet, recommendations),
-    },
-  ];
+  // 이메일이 없으면 그냥 초기 프롬프트만 받아오기
+  if (pet.email === undefined) {
+    const initialMessage = [
+      {
+        id: 'init',
+        role: 'system',
+        content: getInitialPrompt(pet, recommendations),
+      } as Message,
+    ];
+    return initialMessage;
+  }
+
+  const user = await getUser(pet.email, pet.name);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  const chatLog = await getChatLog(user.petId);
+
+  const prevChatLog = chatLog.map((message) => ({
+    content: message.content,
+    role: message.sender === 'assistant' ? 'assistant' : 'user',
+  })) as Message[];
+
+  prevChatLog.unshift({
+    id: 'init',
+    role: 'system',
+    content: getInitialPrompt(pet, recommendations),
+  } as Message);
+
+  return prevChatLog;
 };
 
 const getInitialPrompt = (
@@ -61,10 +86,12 @@ const getPetInfoPrompt = (pet: PetInfo) => {
 const getRecommendationsPrompt = (recommendations: FeedRecommendation[]) => {
   return JSON.stringify(
     recommendations.map((recommendation) => ({
-      사료명: recommendation.feed.name,
+      사료명: recommendation.feed.storeName,
       '추천 이유': recommendation.reasons,
       점수: recommendation.score,
       '사료 성분': getFeedPrompt(recommendation.feed),
+      '사료의 장점': recommendation.feed.points,
+      '사료의 장점 설명': recommendation.feed.descriptions,
     })),
   );
 };
@@ -101,7 +128,9 @@ const getFeedPrompt = (feed: Feed) => {
 
   // remove undefined values
   return Object.fromEntries(
-    Object.entries(feedDescribed).filter(([_, value]) => value),
+    Object.entries(feedDescribed).filter(
+      ([_, value]) => value && value != 0 && value != '0',
+    ),
   );
 };
 

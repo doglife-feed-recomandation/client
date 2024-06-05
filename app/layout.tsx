@@ -1,4 +1,5 @@
 import { AntdRegistry } from '@ant-design/nextjs-registry';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import localFont from 'next/font/local';
 import './globals.css';
 
@@ -16,6 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="kr" className={`${pretendard.variable}`}>
+      <GoogleAnalytics gaId={process.env.FIREBASE_MEASUREMENT_ID as string} />
       <body className={pretendard.className}>
         <AntdRegistry>
           <div

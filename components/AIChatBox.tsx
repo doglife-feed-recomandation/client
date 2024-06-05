@@ -18,7 +18,7 @@ interface AiChatBoxProps {
 const exampleMessages = [
   '이 중에서 한가지만 추천해주세요.',
   '사료는 어느정도를 주는게 좋을까요?',
-  '사료 교체 주기는 어느 정도가 적당한가요?',
+  '사료 교체 주기는 어느 정도가 적당한가요?', // initial prompt로 4~6개월 정보 넣기
   '저번에 사용한 사료라서 다른 사료를 추천해 주세요.',
 ];
 
@@ -39,7 +39,7 @@ export default function AIChatBox({ petId, initialMessages }: AiChatBoxProps) {
         role: message.role,
         content: message.content,
         id: petId,
-        createdAt: Date.now().toString(),
+        createdAt: Date.now(),
       };
       createChatLog(assistantMessage);
       console.log(assistantMessage);
@@ -81,6 +81,7 @@ export default function AIChatBox({ petId, initialMessages }: AiChatBoxProps) {
             ))}
           </div>
         )}
+
         {messages.slice(1).map((message) => (
           <ChatMessage message={message} key={message.id} />
         ))}
@@ -108,7 +109,9 @@ export default function AIChatBox({ petId, initialMessages }: AiChatBoxProps) {
           placeholder="메시지를 입력해주세요."
           ref={inputRef}
         />
-        <Button type="submit">Send</Button>
+        <Button type="submit" className="bg-primary">
+          Send
+        </Button>
       </form>
     </>
   );

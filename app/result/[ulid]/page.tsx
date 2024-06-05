@@ -1,5 +1,6 @@
 import { getPetInfo } from '@/actions/form';
 import RecommendResult from '@/components/RecommendResult';
+import { getInitialMessages } from '@/utils/prompt';
 import { recommendHeuristically } from '@/utils/recommendation';
 
 export default async function RecommendationPage({
@@ -9,7 +10,13 @@ export default async function RecommendationPage({
 }) {
   const pet = await getPetInfo(ulid);
   const recommendations = await recommendHeuristically(pet);
+  const initialMessages = await getInitialMessages(pet, recommendations);
   return (
-    <RecommendResult petId={ulid} pet={pet} recommendations={recommendations} />
+    <RecommendResult
+      petId={ulid}
+      pet={pet}
+      recommendations={recommendations}
+      initialMessages={initialMessages}
+    />
   );
 }

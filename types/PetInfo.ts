@@ -185,4 +185,29 @@ export interface PetInfo {
   allergySource?: (typeof AllergySource)[]; // 알러지 원인이 여러개일 수도
   healthProblem: boolean;
   healthProblemSource?: HealthProblem[]; // 건강 문제
+  email?: string;
+  personalInfoCollectAgree: boolean;
 }
+
+export const personalInfoCollectDescription = [
+  {
+    label: '[개인정보 수집 및 이용 목적]',
+    content:
+      '수집하는 개인정보는 본 서비스의 사용자를 구분하기 위한 목적으로 사용합니다.',
+  },
+  {
+    label: '[수집하려는 개인정보 항목]',
+    content:
+      '수집 및 이용 목적에 따라 수집하는 항목은 이메일 주소 및 반려견의 이름 입니다.',
+  },
+  {
+    label: '[개인정보의 보유 및 이용기간]',
+    content:
+      '수집한 개인정보는 사용자의 마지막 접속 후 3개월 이내에 파기합니다.',
+  },
+  {
+    label: '[수집 동의 거부에 따른 불이익 안내]',
+    content:
+      '서비스 사용자는 개인정보를 입력하지 않고 설문을 진행함으로 개인정보 수집을 거부할 수 있습니다. 다만 거부 시 사용자의 서비스 사용 기록은 다시 불러오는 것이 불가능합니다.',
+  },
+];

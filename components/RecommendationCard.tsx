@@ -1,27 +1,43 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { sendGAEvent } from '@/lib/ga';
 
 import { FeedRecommendation } from '@/types/Feed';
+import { PetInfo } from '@/types/PetInfo';
 
 export default function RecommendationCard({
-  imgSrc,
   recommendation,
+  petId,
+  pet,
 }: {
-  imgSrc: string;
-  recommendation: FeedRecommendation; // feed, reasons, score
+  recommendation: FeedRecommendation;
+  petId: string;
+  pet: PetInfo;
 }) {
   return (
-    <Card className="p-4 hover:bg-zinc-100 h-[95%]">
+    <Card
+      className="p-4 hover:bg-zinc-100  sm:p-1"
+      onClick={() => {
+        sendGAEvent('click_recommended_feed', {
+          feed_id: recommendation.feed.id,
+          feed_name: recommendation.feed.name,
+          pet_id: petId,
+          pet_name: pet.name,
+        });
+
+        window.open(recommendation.feed.storeLink, '_blank');
+      }}
+    >
       <CardContent>
         <div className="space-y-6">
           <div className="mx-auto">
             <img
-              alt={recommendation.feed.name}
-              src={imgSrc}
+              alt={recommendation.feed.storeName}
+              src={recommendation.feed.imgSrc}
               loading="lazy"
               className="mx-auto"
               style={{
-                width: '120px',
-                height: '120px',
+                width: '100%',
+                height: '100%',
                 objectFit: 'cover',
               }}
             />
@@ -33,11 +49,14 @@ export default function RecommendationCard({
             }}
           >
             <div className="text-base font-semibold">
-              {recommendation.feed.name}
+              {recommendation.feed.storeName}
             </div>
 
             <div className="text-xs">
-              {recommendation.reasons.map((reason, i) => (
+              {[
+                ...recommendation.reasons,
+                ...(recommendation.feed.points || []),
+              ].map((reason, i) => (
                 <div key={i}>✓ {reason}</div>
               ))}
             </div>
