@@ -10,7 +10,7 @@ export const getInitialMessages = async (
 ): Promise<Message[]> => {
   // console.log(getInitialPrompt(pet, recommendations));
   // 이메일이 없으면 그냥 초기 프롬프트만 받아오기
-  if (pet.email === undefined) {
+  if (pet.email === undefined || pet.email === '') {
     const initialMessage = [
       {
         id: 'init',

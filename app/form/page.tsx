@@ -9,7 +9,7 @@ export default function Form() {
     'use server';
     const petId = await createPetInfo(pet);
     // petid, email로 user 생성
-    if (pet.email != undefined) {
+    if (pet.email !== undefined && pet.email !== '') {
       const user = await encryptUserEmail(petId, pet.email, pet.name);
       await createUser(user);
     }
