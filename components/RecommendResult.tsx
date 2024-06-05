@@ -51,7 +51,10 @@ export default function RecommendResult({
       >
         <CarouselContent>
           {recommendations.map((recommendation, index) => (
-            <CarouselItem key={index} className="md:basis-1/2 lg:basis-3/12">
+            <CarouselItem
+              key={index}
+              className="sm:basis-1/2 md:basis-1/2 lg:basis-3/12"
+            >
               <RecommendationCard
                 key={recommendation.feed.id}
                 recommendation={recommendation}
